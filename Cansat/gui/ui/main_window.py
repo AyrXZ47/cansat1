@@ -1,7 +1,7 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit
-from utils.constants import *
+from Cansat.gui.utils.constants import *
 
 # Clase que define el layout y propiedades de la ventana principal
 

@@ -1,6 +1,6 @@
 import serial
 import serial.tools.list_ports
-from utils.constants import DEFAULT_BAUDRATE, NULL_COMMUNICATION
+from Cansat.gui.utils.constants import DEFAULT_BAUDRATE, NULL_COMMUNICATION
 
 
 # Objeto que manejará la comunicación entre

@@ -1,4 +1,4 @@
-from serial_communication.arduino_comm import ArduinoComm
+from Cansat.gui.serial_communication.arduino_comm import ArduinoComm
 
 arduino = ArduinoComm()
 ports = arduino.list_available_ports()

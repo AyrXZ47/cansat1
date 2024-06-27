@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QApplication
 
-from ui.main_window import MainWindow
+from Cansat.gui.ui.main_window import MainWindow
 from serial_communication.arduino_comm import ArduinoComm
 
 if __name__ == "__main__":
