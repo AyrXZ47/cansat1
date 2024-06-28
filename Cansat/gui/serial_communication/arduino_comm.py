@@ -1,3 +1,5 @@
+import time
+
 import serial
 import serial.tools.list_ports
 from Cansat.gui.utils.constants import DEFAULT_BAUDRATE, NULL_COMMUNICATION
@@ -12,6 +14,7 @@ class ArduinoComm:
         self.port = None
         self.arduino = None
         self.baudrate = DEFAULT_BAUDRATE
+        self.arduino_found = False
 
     # Listar puertos disponibles en el equipo (varía dependiendo del OS)
     @staticmethod
@@ -23,9 +26,35 @@ class ArduinoComm:
     def select_port(self, port):
         self.port = port  # string
 
+    def handshake_with_arduino(self, timeout=10):
+        start_time = time.time()
+        while True:
+            if self.arduino.in_waiting > 0:
+                line = self.arduino.readline().decode('utf-8').strip()
+                if line == "HANDSHAKE":
+                    print("Handshake received from Arduino")
+                    self.arduino.write(b"CONFIRM\n")
+                    print("Handshake confirmed")
+                    return True
+            # Verificar si el timeout ha sido alcanzado
+            if time.time() - start_time > timeout:
+                print(f"Timeout reached on port {self.port}")
+                return False
+            time.sleep(0.1)
+
     # Iniciar comunicación
     def begin_communication(self):
-        self.arduino = serial.Serial(self.port, self.baudrate)
+        try:
+            self.arduino = serial.Serial(self.port, self.baudrate, timeout=1)
+            time.sleep(2)  # Esperar a que el puerto serie se inicialice
+            if self.handshake_with_arduino():
+                self.arduino_found = True
+                print(f"Arduino found on port {self.port}")
+            else:
+                print(f"No Arduino on port {self.port}")
+                self.close_communication()
+        except serial.SerialException as e:
+            print(f"Error: {e}")
 
     # Cerrar comunicación
     def close_communication(self):
@@ -38,7 +67,6 @@ class ArduinoComm:
     def msg_test(self):
         if (self.validate_communication() == False):
             raise Exception(NULL_COMMUNICATION)
-            return -1
 
         while (1):
             serial_msg = self.arduino.readline()
@@ -52,3 +80,5 @@ class ArduinoComm:
             return False
         else:
             return True
+
+

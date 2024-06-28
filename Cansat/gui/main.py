@@ -1,7 +1,5 @@
 from PyQt6.QtWidgets import QApplication
-
 from Cansat.gui.ui.main_window import MainWindow
-from serial_communication.arduino_comm import ArduinoComm
 
 if __name__ == "__main__":
     import sys
@@ -9,6 +7,3 @@ if __name__ == "__main__":
     window = MainWindow()
     window.show()
     sys.exit(app.exec())
-
-
-
