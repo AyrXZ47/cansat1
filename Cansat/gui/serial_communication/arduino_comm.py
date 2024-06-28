@@ -22,6 +22,18 @@ class ArduinoComm:
         ports = serial.tools.list_ports.comports()
         return ports  # list
 
+    # Listar dispositivos disponibles (Para que lo entienda el programa)
+    @staticmethod
+    def list_available_devices():
+        ports = ArduinoComm.list_available_ports()
+        device_list = []
+
+        for x in range(len(ports)):
+            device_list.append(ports[x].device.split()[0])
+
+        return device_list
+
+
     # Seleccionar el puerto (a partir de la lista de puertos)
     def select_port(self, port):
         self.port = port  # string
