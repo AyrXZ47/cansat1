@@ -38,6 +38,10 @@ class ArduinoComm:
     def select_port(self, port):
         self.port = port  # string
 
+    # Seleccionar velocidad (a partir de la lista)
+    def select_baudrate(self, baudrate):
+        self.baudrate = baudrate
+
     def handshake_with_arduino(self, timeout=10):
         start_time = time.time()
         while True:
@@ -56,17 +60,19 @@ class ArduinoComm:
 
     # Iniciar comunicación
     def begin_communication(self):
-        try:
-            self.arduino = serial.Serial(self.port, self.baudrate, timeout=1)
-            time.sleep(2)  # Esperar a que el puerto serie se inicialice
-            if self.handshake_with_arduino():
-                self.arduino_found = True
-                print(f"Arduino found on port {self.port}")
-            else:
-                print(f"No Arduino on port {self.port}")
-                self.close_communication()
-        except serial.SerialException as e:
-            print(f"Error: {e}")
+        self.arduino = serial.Serial(self.port, self.baudrate)
+        print("pablo")
+        # try:
+        #     self.arduino = serial.Serial(self.port, self.baudrate, timeout=1)
+        #     time.sleep(2)  # Esperar a que el puerto serie se inicialice
+        #     if self.handshake_with_arduino():
+        #         self.arduino_found = True
+        #         print(f"Arduino found on port {self.port}")
+        #     else:
+        #         print(f"No Arduino on port {self.port}")
+        #         self.close_communication()
+        # except serial.SerialException as e:
+        #     print(f"Error: {e}")
 
     # Cerrar comunicación
     def close_communication(self):

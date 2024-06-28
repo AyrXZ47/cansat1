@@ -19,6 +19,24 @@ class ConnectionWindow(QWidget):
         rectangle.moveCenter(center_point)
         self.move(rectangle.topLeft())
 
+    # Definir eventos
+
+    def begin_comm(self):
+        self.port_combobox.setEnabled(False)
+        self.rate_combobox.setEnabled(False)
+        self.begin_button.setEnabled(False)
+
+        # comm = ArduinoComm()
+        # selected_port = self.port_combobox.currentText()
+        # selected_speed = int(self.rate_combobox.currentText())
+        #
+        # comm.select_port(selected_port)
+        # comm.select_baudrate(selected_speed)
+        # comm.begin_communication()
+        # comm.msg_test()
+
+
+
     # Función para construir la ventana (agrega elementos, define layout, etc.)
     def initUI(self):
         # Definir propiedades de la ventana.
@@ -33,7 +51,7 @@ class ConnectionWindow(QWidget):
         title = QLabel(CONNWINDOW_TEXT)
         serial_text = QLabel(CONNWINDOW_PORT)
         speed_text = QLabel(CONNWINDOW_SPEED)
-        begin_button = QPushButton(CONNWINDOW_BEGIN)
+        self.begin_button = QPushButton(CONNWINDOW_BEGIN)
 
         font = QFont()
         font.setPointSize(20)
@@ -41,18 +59,18 @@ class ConnectionWindow(QWidget):
 
 
         # Obtener los puertos y añadirlos a la lista
-        port_combobox = QComboBox()
+        self.port_combobox = QComboBox()
         ports = ArduinoComm.list_available_devices()
 
         for x in range (len(ports)):
-            port_combobox.addItem(ports[x])
+            self.port_combobox.addItem(ports[x])
 
         # Obtener las velocidades posibles del puerto serie
-        rate_combobox = QComboBox()
+        self.rate_combobox = QComboBox()
         baudrates = TRANSM_SPEED
 
         for x in range (len(baudrates)):
-            rate_combobox.addItem(baudrates[x])
+            self.rate_combobox.addItem(baudrates[x])
 
 
         # Definir layout
@@ -63,8 +81,15 @@ class ConnectionWindow(QWidget):
 
         layout.addWidget(title, 0, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(serial_text, 1, 0, Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(port_combobox, 2, 0, Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(self.port_combobox, 2, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(speed_text, 3, 0, Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(rate_combobox, 4, 0, Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(begin_button, 5, 0, Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(self.rate_combobox, 4, 0, Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(self.begin_button, 5, 0, Qt.AlignmentFlag.AlignCenter)
+
+        self.begin_button.clicked.connect(self.begin_comm)
+
+
+
+
+
 
