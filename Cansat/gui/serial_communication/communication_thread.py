@@ -19,5 +19,5 @@ class CommunicationThread(QThread):
         comm.select_port(self.port)
         comm.select_baudrate(self.speed)
         comm.begin_communication()
-
+        comm.msg_test()
         self.finished.emit()
