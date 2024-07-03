@@ -14,7 +14,7 @@ from Cansat.gui.serial_communication.arduino_comm import ArduinoComm
 class ConnectionWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.init_progress_dialog()
+        #self.init_progress_dialog()
         self.initUI()
 
     def init_progress_dialog(self):
@@ -36,6 +36,7 @@ class ConnectionWindow(QWidget):
     # Definir eventos
 
     def begin_comm(self):
+        self.init_progress_dialog()
         self.progress_dialog.show()
 
         self.port_combobox.setEnabled(False)
