@@ -1,2 +1,4 @@
 pyserial
 PyQt6
+numpy
+pyqtgraph

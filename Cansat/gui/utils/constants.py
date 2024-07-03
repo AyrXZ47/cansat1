@@ -1,6 +1,6 @@
 from pathlib import Path
 
-VERSION = "v0.0.2"
+VERSION = "v0.1.0"
 
 def check_home():
     cansat_folder = Path.home() / ".cansat"

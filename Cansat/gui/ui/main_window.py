@@ -2,6 +2,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit
 from Cansat.gui.utils.constants import *
+from Cansat.gui.ui.graphs.temperature_graph import TemperatureGraph
 
 # Clase que define el layout, elementos y propiedades de la ventana principal
 
@@ -44,7 +45,11 @@ class MainWindow(QWidget):
         layout.addWidget(QLabel('Modelo 3D'), 1, 0, 2, 2, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # Aqui se agregarán las graficas con los datos
-        layout.addWidget(QLabel('Grafica 1:'), 1, 2, alignment=Qt.AlignmentFlag.AlignCenter)
+        # layout.addWidget(QLabel('Grafica 1:'), 1, 2, alignment=Qt.AlignmentFlag.AlignCenter)
+
+        temp_graph = TemperatureGraph()
+
+        layout.addWidget(temp_graph, 1, 2)
         layout.addWidget(QLabel('Grafica 2:'), 1, 3, alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(QLabel('Grafica 3:'), 2, 2, alignment=Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(QLabel('Grafica 4:'), 2, 3, alignment=Qt.AlignmentFlag.AlignCenter)
