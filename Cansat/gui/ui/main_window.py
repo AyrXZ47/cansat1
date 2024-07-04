@@ -3,6 +3,7 @@ from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit
 from Cansat.gui.utils.constants import *
 from Cansat.gui.ui.graphs.temperature_graph import TemperatureGraph
+from Cansat.gui.ui.model3d.viewport_3d import Viewport3D
 
 # Clase que define el layout, elementos y propiedades de la ventana principal
 
@@ -43,7 +44,8 @@ class MainWindow(QWidget):
 
 
         # Aqui irá el widget para el modelo 3D
-        layout.addWidget(QLabel('Modelo 3D'), 1, 0, 2, 2, alignment=Qt.AlignmentFlag.AlignCenter)
+        # layout.addWidget(QLabel('Modelo 3D'), 1, 0, 2, 2, alignment=Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(Viewport3D(), 1, 0, 2, 2)
 
         # Aqui se agregarán las graficas con los datos
         # layout.addWidget(QLabel('Grafica 1:'), 1, 2, alignment=Qt.AlignmentFlag.AlignCenter)
