@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit, QVBoxLayout
 
 from Cansat.gui.serial_communication.communication_thread import CommunicationThread
 from Cansat.gui.ui.wait_cansat_window import WaitCansatWindow
+from Cansat.gui.ui.main_window import MainWindow
 from Cansat.gui.utils.constants import *
 from Cansat.gui.serial_communication.arduino_comm import ArduinoComm
 
@@ -36,8 +37,8 @@ class ConnectionWindow(QWidget):
     # Definir eventos
 
     def begin_button_pressed(self):
-        self.init_progress_dialog()
-        self.progress_dialog.show()
+        #self.init_progress_dialog()
+        #self.progress_dialog.show()
 
         self.port_combobox.setEnabled(False)
         self.rate_combobox.setEnabled(False)
@@ -47,17 +48,15 @@ class ConnectionWindow(QWidget):
         selected_speed = int(self.rate_combobox.currentText())
 
 
-
-        # TODO Aun no se si usar una ventana aparte o un dialogo
-        # self.wait_window = WaitCansatWindow(self)
-        # self.wait_window.show()
-        # self.close()
-
-
         # TODO Iniciar comunicacion en un nuevo hilo
         self.thread = CommunicationThread(selected_port, selected_speed)
         self.thread.finished.connect(self.on_thread_finished)
         self.thread.start()
+
+        # TODO Abrir ventana principal
+        self.main_window = MainWindow(self.thread)
+        self.main_window.show()
+        self.close()
 
     # Cuando se finalice la conexión (el hilo) se volveraán a habilitar los selectores
     def on_thread_finished(self):

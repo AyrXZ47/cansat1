@@ -7,9 +7,10 @@ from Cansat.gui.ui.graphs.temperature_graph import TemperatureGraph
 # Clase que define el layout, elementos y propiedades de la ventana principal
 
 class MainWindow(QWidget):
-    def __init__(self):
+    def __init__(self, comm_thread):
         super().__init__()
         self.initUI()
+        self.comm_thread = comm_thread
 
     # Función para centrar la ventana
     def center(self):

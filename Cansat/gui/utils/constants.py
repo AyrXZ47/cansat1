@@ -2,7 +2,7 @@ from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 
-VERSION = "v0.1.0"
+VERSION = "v0.1.1"
 
 def check_home():
     cansat_folder = Path.home() / ".cansat"
