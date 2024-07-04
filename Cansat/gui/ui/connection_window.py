@@ -35,7 +35,7 @@ class ConnectionWindow(QWidget):
 
     # Definir eventos
 
-    def begin_comm(self):
+    def begin_button_pressed(self):
         self.init_progress_dialog()
         self.progress_dialog.show()
 
@@ -118,7 +118,7 @@ class ConnectionWindow(QWidget):
         layout.addWidget(self.rate_combobox, 4, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.begin_button, 5, 0, Qt.AlignmentFlag.AlignCenter)
 
-        self.begin_button.clicked.connect(self.begin_comm)
+        self.begin_button.clicked.connect(self.begin_button_pressed)
 
 
 

@@ -9,8 +9,8 @@ class TemperatureGraph(qtgraph.PlotWidget):
         super().__init__(parent)
         pen_color = (TEMP_COLOR)
         pen_width = GRAPH_PENWIDTH
-        self.temp_plot = self.plot(pen=qtgraph.mkPen(color=pen_color, width=pen_width, antialias=True, style=Qt.PenStyle.DashLine))
-        self.temp_data = numpy.linspace(0, 0, 30)
+        self.temp_plot = self.plot(pen=qtgraph.mkPen(color=pen_color, width=pen_width, antialias=GRAPH_ANTIALIAS, style=GRAPH_PENSTYLE))
+        self.temp_data = numpy.linspace(0, 0, GRAPH_HISTORYSIZE)
         self.ptr = 0
         self.setBackground(GRAPH_BACKGROUND)
         self.setMouseEnabled(x=GRAPH_ENABLEMOUSE, y=GRAPH_ENABLEMOUSE)

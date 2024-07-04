@@ -48,11 +48,20 @@ class MainWindow(QWidget):
         # layout.addWidget(QLabel('Grafica 1:'), 1, 2, alignment=Qt.AlignmentFlag.AlignCenter)
 
         temp_graph = TemperatureGraph()
+        acel_graph = TemperatureGraph()
+        alti_graph = TemperatureGraph()
+        pres_graph = TemperatureGraph()
+
+        temp_graph.setMinimumWidth(300)
+        acel_graph.setMinimumWidth(300)
+        alti_graph.setMinimumWidth(300)
+        pres_graph.setMinimumWidth(300)
+
 
         layout.addWidget(temp_graph, 1, 2)
-        layout.addWidget(QLabel('Grafica 2:'), 1, 3, alignment=Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(QLabel('Grafica 3:'), 2, 2, alignment=Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(QLabel('Grafica 4:'), 2, 3, alignment=Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(acel_graph, 1, 3)
+        layout.addWidget(alti_graph, 2, 2)
+        layout.addWidget(pres_graph, 2, 3)
 
         # Boton de configuracion (no sé donde ponerlo y que se vea bien)
         layout.addWidget(QLabel('config:'), 0, 3, alignment=Qt.AlignmentFlag.AlignRight)
