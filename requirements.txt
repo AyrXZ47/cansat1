@@ -2,3 +2,6 @@ pyserial
 PyQt6
 numpy
 pyqtgraph
+matplotlib
+matplotlib-3d @ git+https://github.com/rougier/matplotlib-3d
+meshio
