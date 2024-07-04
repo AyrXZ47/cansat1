@@ -2,7 +2,7 @@ from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 
-VERSION = "v0.2.0"
+VERSION = "v0.2.1"
 
 def check_home():
     cansat_folder = Path.home() / ".cansat"
@@ -50,6 +50,14 @@ TEMP_COLOR = [255,0,0] # rojo
 # VALORES ESPECIFICOS DE GRAFICA ALTITUD
 
 # VALORES ESPECIFICOS DE GRAFICA PRESION
+
+
+# VALORES DE VISOR 3D
+MESH_PATH = "lowsoda.obj"
+MESH_COLORMAP = "magma"
+CAMERA_MODE = "ortho"
+CAMERA_SCALE = 2
+
 
 
 

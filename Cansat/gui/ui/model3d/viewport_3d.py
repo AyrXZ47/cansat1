@@ -41,8 +41,8 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 import meshio
+from Cansat.gui.utils.constants import *
 
-# TODO Mover valores a clase de constantes
 class Viewport3D(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -54,13 +54,13 @@ class Viewport3D(QWidget):
         self.plot()
 
     def plot(self):
-        camera = Camera("ortho", scale=2)
+        camera = Camera(CAMERA_MODE, scale=CAMERA_SCALE)
 
-        mesh = meshio.read("lowsoda.obj")
+        mesh = meshio.read(MESH_PATH)
         vertices = mesh.points
         faces = mesh.cells[0].data
         vertices = glm.fit_unit_cube(vertices)
-        mesh = Mesh(self.canvas.axis, camera.transform, vertices, faces, cmap=plt.get_cmap("magma"), edgecolors=(0,0,0,0.25))
+        mesh = Mesh(self.canvas.axis, camera.transform, vertices, faces, cmap=plt.get_cmap(MESH_COLORMAP), edgecolors=(0,0,0,0.25))
 
         camera.connect(self.canvas.axis, mesh.update)
         self.canvas.draw()
