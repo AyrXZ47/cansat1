@@ -8,8 +8,7 @@ config = ConfigParser()
 # Configuración por defecto del programa
 config[CONFIG_NAME] = {
     FIELD_UNITS: "metric",
-    FIELD_PORT: "None",
-    FIELD_LANGUAGE: "es"
+    FIELD_PORT: "None"
 }
 
 language = ["es", "en"]

@@ -3,7 +3,6 @@ from Cansat.gui.utils.constants import CONFIG_NAME, FIELD_LANGUAGE, FIELD_PORT, 
 
 a = config_handler.load_config_file()
 print(a[CONFIG_NAME][FIELD_UNITS])
-print(a[CONFIG_NAME][FIELD_LANGUAGE])
 print(a[CONFIG_NAME][FIELD_PORT])
 
 print("-----")
@@ -11,6 +10,5 @@ print("-----")
 config_handler.make_config_file()
 a = config_handler.load_config_file()
 print(a[CONFIG_NAME][FIELD_UNITS])
-print(a[CONFIG_NAME][FIELD_LANGUAGE])
 print(a[CONFIG_NAME][FIELD_PORT])
 
