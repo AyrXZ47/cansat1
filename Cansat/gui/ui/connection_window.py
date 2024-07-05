@@ -67,6 +67,8 @@ class ConnectionWindow(QWidget):
 
 
     def data_event_handler(self, data:str):
+        received_data = data.split(",")
+
         print(data)
         if(data.startswith("e")):
             self.show_error_dialog(data)
@@ -78,12 +80,22 @@ class ConnectionWindow(QWidget):
             if not self.progress_dialog:
                 self.init_progress_dialog()
                 self.progress_dialog.show()
+        # elif not self.validate_data(data):
+        #     if not self.progress_dialog:
+        #         self.init_progress_dialog()
+        #         self.progress_dialog.show()
         else:
             if self.progress_dialog:
                 self.progress_dialog.canceled.disconnect(self.on_thread_finished)
                 self.progress_dialog.close()
             self.thread.data_received.disconnect(self.data_event_handler)
             self.open_mainwindow()
+
+    # def validate_data(self, data):
+    #     for x in data:
+    #         if x != 0:
+    #             return True
+    #     return False
 
 
     def show_error_dialog(self, error_message):

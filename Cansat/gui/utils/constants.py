@@ -2,7 +2,7 @@ from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 # Version
-VERSION = "v0.2.2"
+VERSION = "v0.2.4"
 
 # CONSTANTES
 WINDOW_TITLE = "Visualizador de CanSat " + VERSION
