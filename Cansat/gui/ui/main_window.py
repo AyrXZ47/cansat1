@@ -26,10 +26,12 @@ class MainWindow(QWidget):
     # Función para construir la ventana (agrega elementos, define layout, etc.)
     def initUI(self):
         # Definir propiedades de la ventana.
+        print("si")
         self.setWindowTitle(WINDOW_TITLE)
         self.setBaseSize(800, 400)
         self.setGeometry(100, 100, 800, 400)
         self.center()
+
 
         # Definir layout
         layout = QGridLayout()
@@ -78,7 +80,7 @@ class MainWindow(QWidget):
 
     def updateGUI(self, data):
         print(data)
-        self.config_label.setText(data)
+        # self.config_label.setText(data)
 
 
 

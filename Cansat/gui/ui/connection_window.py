@@ -1,8 +1,7 @@
 from PyQt6.QtCore import Qt, QThread, pyqtSignal
 from PyQt6.QtGui import QColor, QFont
 from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit, QVBoxLayout, QComboBox, QPushButton, \
-    QProgressDialog
-
+    QProgressDialog, QMessageBox
 from Cansat.gui.serial_communication.communication_thread import CommunicationThread
 from Cansat.gui.ui.wait_cansat_window import WaitCansatWindow
 from Cansat.gui.ui.main_window import MainWindow
@@ -15,15 +14,9 @@ from Cansat.gui.serial_communication.arduino_comm import ArduinoComm
 class ConnectionWindow(QWidget):
     def __init__(self):
         super().__init__()
-        #self.init_progress_dialog()
+        self.main_window = None
+        self.progress_dialog = None
         self.initUI()
-
-    def init_progress_dialog(self):
-        self.progress_dialog = QProgressDialog(WAITWINDOW_LABEL, WAITWINDOW_CANCEL, 0, 0, self)
-        self.progress_dialog.setWindowTitle("Espere...")
-        self.progress_dialog.setWindowModality(Qt.WindowModality.WindowModal)
-        self.progress_dialog.setValue(0)
-        self.progress_dialog.canceled.connect(self.on_thread_finished)
 
 
     # Función para centrar la ventana
@@ -35,11 +28,9 @@ class ConnectionWindow(QWidget):
         self.move(rectangle.topLeft())
 
     # Definir eventos
-
     def begin_button_pressed(self):
-        #self.init_progress_dialog()
-        #self.progress_dialog.show()
-
+        self.init_progress_dialog()
+        self.progress_dialog.show()
         self.port_combobox.setEnabled(False)
         self.rate_combobox.setEnabled(False)
         self.begin_button.setEnabled(False)
@@ -50,23 +41,54 @@ class ConnectionWindow(QWidget):
 
         # TODO Iniciar comunicacion en un nuevo hilo
         self.thread = CommunicationThread(selected_port, selected_speed)
+        self.thread.data_received.connect(self.data_event_handler)
         self.thread.finished.connect(self.on_thread_finished)
         self.thread.start()
 
-        # TODO Abrir ventana principal
+    def open_mainwindow(self):
         self.main_window = MainWindow(self.thread)
         self.main_window.show()
         self.close()
 
+    def init_progress_dialog(self):
+        self.progress_dialog = QProgressDialog(WAITWINDOW_LABEL, WAITWINDOW_CANCEL, 0, 0, self)
+        self.progress_dialog.setWindowTitle("Espere...")
+        self.progress_dialog.setWindowModality(Qt.WindowModality.WindowModal)
+        self.progress_dialog.setValue(0)
+        self.progress_dialog.canceled.connect(self.on_thread_finished)
+
     # Cuando se finalice la conexión (el hilo) se volveraán a habilitar los selectores
     def on_thread_finished(self):
+        print("TERMINADO")
         self.thread.terminate() # FIXME Finalizar el hilo de comunicación correctamente
         self.port_combobox.setEnabled(True)
         self.rate_combobox.setEnabled(True)
         self.begin_button.setEnabled(True)
 
 
+    def data_event_handler(self, data:str):
+        print(data)
+        if(data.startswith("e")):
+            self.show_error_dialog(data)
+            if self.progress_dialog:
+                self.progress_dialog.canceled.disconnect(self.on_thread_finished)
+                self.progress_dialog.close()
+        elif(data.startswith("Esperando") or data.startswith("Iniciando")):
+            print("waiting")
+            if not self.progress_dialog:
+                self.init_progress_dialog()
+                self.progress_dialog.show()
+        else:
+            if self.progress_dialog:
+                self.progress_dialog.canceled.disconnect(self.on_thread_finished)
+                self.progress_dialog.close()
+            self.thread.data_received.disconnect(self.data_event_handler)
+            self.open_mainwindow()
 
+
+    def show_error_dialog(self, error_message):
+        self.on_thread_finished()
+        QMessageBox.critical(self, 'Error', error_message.capitalize())
 
     # Función para construir la ventana (agrega elementos, define layout, etc.)
     def initUI(self):
