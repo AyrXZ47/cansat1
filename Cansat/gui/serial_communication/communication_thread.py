@@ -5,6 +5,7 @@ from Cansat.gui.serial_communication.arduino_comm import ArduinoComm
 
 
 class CommunicationThread(QThread):
+    data_received = pyqtSignal(str)
     finished = pyqtSignal()
 
     # Recibiraá el puerto y la velocidad
@@ -18,6 +19,7 @@ class CommunicationThread(QThread):
         comm = ArduinoComm()
         comm.select_port(self.port)
         comm.select_baudrate(self.speed)
+        comm.serial_received.connect(self.data_received)
         comm.begin_communication()
         comm.msg_test()
         self.finished.emit()

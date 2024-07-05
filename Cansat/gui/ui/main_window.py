@@ -12,6 +12,8 @@ class MainWindow(QWidget):
         super().__init__()
         self.initUI()
         self.comm_thread = comm_thread
+        self.comm_thread.data_received.connect(self.updateGUI)
+
 
     # Función para centrar la ventana
     def center(self):
@@ -67,9 +69,17 @@ class MainWindow(QWidget):
         layout.addWidget(pres_graph, 2, 3)
 
         # Boton de configuracion (no sé donde ponerlo y que se vea bien)
-        layout.addWidget(QLabel('config:'), 0, 3, alignment=Qt.AlignmentFlag.AlignRight)
+        self.config_label = QLabel('config:')
+        layout.addWidget(self.config_label, 0, 3, alignment=Qt.AlignmentFlag.AlignRight)
 
 
         self.setVisible(True)
+
+
+    def updateGUI(self, data):
+        print(data)
+        self.config_label.setText(data)
+
+
 
 

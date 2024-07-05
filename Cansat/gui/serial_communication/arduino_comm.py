@@ -2,13 +2,18 @@ import time
 
 import serial
 import serial.tools.list_ports
+from PyQt6.QtCore import QObject, pyqtSignal
+
 from Cansat.gui.utils.constants import DEFAULT_BAUDRATE, NULL_COMMUNICATION
 
 
 # Objeto que manejará la comunicación entre
 # el arduino y la interfaz
 
-class ArduinoComm:
+class ArduinoComm(QObject):
+
+    serial_received = pyqtSignal(str)
+
     def __init__(self):
         super().__init__()
         self.port = None
@@ -88,9 +93,8 @@ class ArduinoComm:
 
         while (1):
             serial_msg = self.arduino.readline()
-            serial_msg = serial_msg.decode('utf-8')
-            serial_msg.upper()
-            print(serial_msg)
+            serial_msg = serial_msg.decode('utf-8').rstrip()
+            self.serial_received.emit(serial_msg)
 
     # Validar si se ha iniciado comunicación
     def validate_communication(self):
