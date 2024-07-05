@@ -14,16 +14,15 @@ class TemperatureGraph(qtgraph.PlotWidget):
         self.ptr = 0
         self.setBackground(GRAPH_BACKGROUND)
         self.setMouseEnabled(x=GRAPH_ENABLEMOUSE, y=GRAPH_ENABLEMOUSE)
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.update_data)
-        self.timer.start(GRAPH_UPDINTERVAL)
+        # self.timer = QTimer(self)
+        # self.timer.timeout.connect(self.update_data)
+        # self.timer.start(GRAPH_UPDINTERVAL)
 
 
     # TODO Actualizar método para recibir datos de la estacion terrena
-    def update_data(self):
-        new_data = numpy.random.normal(size=30)
+    def update_data(self, new_data):
         self.temp_data = numpy.roll(self.temp_data, -1)
-        self.temp_data[-1] = new_data[-1]
+        self.temp_data[-1] = new_data
         self.temp_plot.setData(self.temp_data)
 
 
