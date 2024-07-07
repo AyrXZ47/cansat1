@@ -1,3 +1,5 @@
+import math
+
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit, QStatusBar, QMainWindow
@@ -92,20 +94,27 @@ class MainWindow(QMainWindow):
         if(len(raw_data) == 6):
             altitude = raw_data[0]
             pressure = raw_data[1]
-            accelX = raw_data[2]
-            accelY = raw_data[3]
-            accelZ = raw_data[4]
+            accelX = int(raw_data[2])
+            accelY = int(raw_data[3])
+            accelZ = int(raw_data[4])
             temp = raw_data[5]
 
-            print(altitude)
-            print(pressure)
-            print(accelX)
-            print(accelY)
-            print(accelZ)
-            print(temp)
+            print(f"x {accelX}")
+            print(f"y {accelY}")
+            print(f"z {accelZ}")
+
+
+            roll = math.atan2(accelY, accelZ)
+            pitch = math.atan2(-accelX, math.sqrt(accelY * accelY + accelZ * accelZ))
+
+
+            print(f"roll: {math.degrees(roll)}");
+            print(f"pitch: {math.degrees(pitch)}");
+
+
 
             self.temp_graph.update_data(temp)
-            self.acel_graph.update_data(accelX)
+            self.acel_graph.update_data(accelZ)
             self.alti_graph.update_data(altitude)
             self.pres_graph.update_data(pressure)
 
