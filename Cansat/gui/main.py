@@ -14,8 +14,8 @@
 # along with Dragon's CanSat Monitor. If not, see <http://www.gnu.org/licenses/>.
 
 from PyQt6.QtWidgets import QApplication
-from Cansat.gui.ui.main_window import MainWindow
-from Cansat.gui.ui.connection_window import ConnectionWindow
+from ui.main_window import MainWindow
+from ui.connection_window import ConnectionWindow
 
 if __name__ == "__main__":
     import sys
