@@ -1,7 +1,7 @@
 import sys
 
 from PyQt6.QtWidgets import QApplication
-from Cansat.gui.ui.connection_window import ConnectionWindow
+from ui.connection_window import ConnectionWindow
 
 app = QApplication(sys.argv)
 window = ConnectionWindow()

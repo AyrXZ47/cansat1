@@ -16,7 +16,7 @@
 # Clase que define el hilo donde se llevaraá a cabo la comunicacioón (TODO se moverá mas adelante)
 from PyQt6.QtCore import QThread, pyqtSignal
 
-from Cansat.gui.serial_communication.arduino_comm import ArduinoComm
+from serial_communication.arduino_comm import ArduinoComm
 
 
 class CommunicationThread(QThread):

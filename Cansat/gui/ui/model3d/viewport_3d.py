@@ -41,7 +41,7 @@ from matplotlib.figure import Figure
 import numpy as np
 import meshio
 import sys
-from Cansat.gui.utils.constants import *
+from utils.constants import *
 
 
 def frustum(left, right, bottom, top, znear, zfar):

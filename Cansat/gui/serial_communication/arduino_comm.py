@@ -17,7 +17,7 @@ import serial
 import serial.tools.list_ports
 from PyQt6.QtCore import QObject, pyqtSignal
 
-from Cansat.gui.utils.constants import DEFAULT_BAUDRATE, NULL_COMMUNICATION, DECODE_MODE
+from utils.constants import DEFAULT_BAUDRATE, NULL_COMMUNICATION, DECODE_MODE
 
 
 # Objeto que manejará la comunicación entre

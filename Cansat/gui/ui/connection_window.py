@@ -16,10 +16,10 @@
 from PyQt6.QtGui import QColor, QFont
 from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit, QVBoxLayout, QComboBox, QPushButton, \
     QProgressDialog, QMessageBox, QHBoxLayout
-from Cansat.gui.serial_communication.communication_thread import CommunicationThread
-from Cansat.gui.ui.main_window import MainWindow
-from Cansat.gui.utils.constants import *
-from Cansat.gui.serial_communication.arduino_comm import ArduinoComm
+from serial_communication.communication_thread import CommunicationThread
+from ui.main_window import MainWindow
+from utils.constants import *
+from serial_communication.arduino_comm import ArduinoComm
 
 
 # Clase que define el layout, elementos y propiedades de la ventana de conexión

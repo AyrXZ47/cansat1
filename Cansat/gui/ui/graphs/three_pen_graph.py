@@ -16,7 +16,7 @@
 import pyqtgraph as qtgraph
 import numpy
 from PyQt6.QtCore import QTimer, Qt
-from Cansat.gui.utils.constants import *
+from utils.constants import *
 
 class ThreePenGraph(qtgraph.PlotWidget):
 

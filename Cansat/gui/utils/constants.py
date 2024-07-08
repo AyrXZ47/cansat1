@@ -17,12 +17,12 @@ from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 # Version
-VERSION = "v0.5.1"
+VERSION = "v0.5.2"
 
 
 
 # CONSTANTES
-WINDOW_TITLE = "Dragon's CanSat Monitor" + VERSION
+WINDOW_TITLE = "Dragon's CanSat Monitor" + " " + VERSION
 DEFAULT_BAUDRATE_INDEX = 5
 TRANSM_SPEED = [
     "300", "600", "1200", "2400", "4800", "9600",

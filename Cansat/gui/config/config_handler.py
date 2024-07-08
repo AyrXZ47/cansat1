@@ -14,7 +14,7 @@
 # along with Dragon's CanSat Monitor. If not, see <http://www.gnu.org/licenses/>.
 
 from configparser import ConfigParser
-from Cansat.gui.utils.constants import HOME_FOLDER, CONFIG_FILE, CONFIG_NAME, FIELD_UNITS, FIELD_PORT, FIELD_LANGUAGE
+from utils.constants import HOME_FOLDER, CONFIG_FILE, CONFIG_NAME, FIELD_UNITS, FIELD_PORT, FIELD_LANGUAGE
 
 # TODO Esto debe ser una clase
 

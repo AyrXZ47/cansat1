@@ -19,10 +19,10 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit, QStatusBar, QMainWindow
 
-from Cansat.gui.ui.graphs.three_pen_graph import ThreePenGraph
-from Cansat.gui.utils.constants import *
-from Cansat.gui.ui.graphs.single_pen_graph import SinglePenGraph
-from Cansat.gui.ui.model3d.viewport_3d import Viewport3D
+from ui.graphs.three_pen_graph import ThreePenGraph
+from utils.constants import *
+from ui.graphs.single_pen_graph import SinglePenGraph
+from ui.model3d.viewport_3d import Viewport3D
 
 # Clase que define el layout, elementos y propiedades de la ventana principal
 
