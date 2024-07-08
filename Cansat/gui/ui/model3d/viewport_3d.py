@@ -129,3 +129,30 @@ class Canvas3D(FigureCanvas):
         self.setParent(parent)
 
 
+# --- main --------------------------------------------------------------------
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    viewport = Viewport3D()
+    viewport.show()
+
+
+    def request_rotation():
+        while True:
+            try:
+                angles = input("Enter rotation angles (x y z) or 'exit' to quit: ")
+                if angles.lower() == 'exit':
+                    break
+                angle_x, angle_y, angle_z = map(float, angles.split())
+                viewport.rotate(angle_x, angle_y, angle_z)
+            except Exception as e:
+                print(f"Error: {e}. Please enter valid angles.")
+
+
+    import threading
+
+    rotation_thread = threading.Thread(target=request_rotation)
+    rotation_thread.start()
+
+    sys.exit(app.exec())
+
+

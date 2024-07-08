@@ -52,7 +52,8 @@ class MainWindow(QMainWindow):
 
         # Aqui irá el widget para el modelo 3D
         # layout.addWidget(QLabel('Modelo 3D'), 1, 0, 2, 2, alignment=Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(Viewport3D(), 1, 0, 2, 2)
+        self.viewport3D = Viewport3D()
+        layout.addWidget(self.viewport3D, 1, 0, 2, 2)
 
         # Aqui se agregarán las graficas con los datos
         # layout.addWidget(QLabel('Grafica 1:'), 1, 2, alignment=Qt.AlignmentFlag.AlignCenter)
@@ -117,7 +118,9 @@ class MainWindow(QMainWindow):
             self.acel_graph.update_data(accelZ)
             self.alti_graph.update_data(altitude)
             self.pres_graph.update_data(pressure)
-
+            print(roll)
+            print(pitch)
+            self.viewport3D.rotate(math.degrees(pitch), 0, math.degrees(roll))
 
 
 
