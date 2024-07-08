@@ -12,12 +12,12 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Dragon's CanSat Monitor. If not, see <http://www.gnu.org/licenses/>.
-
+import os
 from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 # Version
-VERSION = "v0.5.2"
+VERSION = "v0.5.3"
 
 
 
@@ -73,7 +73,7 @@ PRES_COLOR = [0, 255, 0]
 
 
 # VALORES DE VISOR 3D
-MESH_PATH = "lowsoda.obj"
+MESH_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources', 'lowsoda.obj')
 MESH_COLORMAP = "viridis"
 MESH_BACKGROUND = 'black'
 CAMERA_MODE = "ortho"
@@ -103,3 +103,4 @@ def check_home():
 
 # INICIALIZAR CARPETA
 HOME_FOLDER = check_home()
+
