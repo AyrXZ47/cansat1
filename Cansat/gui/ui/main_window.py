@@ -18,8 +18,10 @@ import math
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit, QStatusBar, QMainWindow
+
+from Cansat.gui.ui.graphs.three_pen_graph import ThreePenGraph
 from Cansat.gui.utils.constants import *
-from Cansat.gui.ui.graphs.temperature_graph import TemperatureGraph
+from Cansat.gui.ui.graphs.single_pen_graph import SinglePenGraph
 from Cansat.gui.ui.model3d.viewport_3d import Viewport3D
 
 # Clase que define el layout, elementos y propiedades de la ventana principal
@@ -73,10 +75,10 @@ class MainWindow(QMainWindow):
         # Aqui se agregarán las graficas con los datos
         # layout.addWidget(QLabel('Grafica 1:'), 1, 2, alignment=Qt.AlignmentFlag.AlignCenter)
 
-        self.temp_graph = TemperatureGraph()
-        self.acel_graph = TemperatureGraph()
-        self.alti_graph = TemperatureGraph()
-        self.pres_graph = TemperatureGraph()
+        self.temp_graph = SinglePenGraph(TEMP_COLOR)
+        self.acel_graph = ThreePenGraph(ACCL_COLOR1, ACCL_COLOR2, ACCL_COLOR3)
+        self.alti_graph = SinglePenGraph(ALTI_COLOR)
+        self.pres_graph = SinglePenGraph(PRES_COLOR)
 
         self.temp_graph.setMinimumWidth(300)
         self.acel_graph.setMinimumWidth(300)
@@ -128,7 +130,7 @@ class MainWindow(QMainWindow):
 
 
             self.temp_graph.update_data(temp)
-            self.acel_graph.update_data(accelZ)
+            self.acel_graph.update_data(accelX, accelY, accelZ)
             self.alti_graph.update_data(altitude)
             self.pres_graph.update_data(pressure)
             print(roll)

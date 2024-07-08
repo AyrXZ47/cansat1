@@ -18,11 +18,11 @@ import numpy
 from PyQt6.QtCore import QTimer, Qt
 from Cansat.gui.utils.constants import *
 
-class TemperatureGraph(qtgraph.PlotWidget):
+class SinglePenGraph(qtgraph.PlotWidget):
 
-    def __init__(self, parent=None):
+    def __init__(self, graph_color,parent=None):
         super().__init__(parent)
-        pen_color = (TEMP_COLOR)
+        pen_color = (graph_color)
         pen_width = GRAPH_PENWIDTH
         self.temp_plot = self.plot(pen=qtgraph.mkPen(color=pen_color, width=pen_width, antialias=GRAPH_ANTIALIAS, style=GRAPH_PENSTYLE))
         self.temp_data = numpy.linspace(0, 0, GRAPH_HISTORYSIZE)
