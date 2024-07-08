@@ -2,27 +2,30 @@ from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 # Version
-VERSION = "v0.4.2"
+VERSION = "v0.4.3"
+
+
 
 # CONSTANTES
 WINDOW_TITLE = "Visualizador de CanSat " + VERSION
 DEFAULT_BAUDRATE_INDEX = 5
+TRANSM_SPEED = [
+    "300", "600", "1200", "2400", "4800", "9600",
+    "14400", "28800", "38400", "57600", "115200"
+]
 NULL_COMMUNICATION = 'No se ha abierto la comunicación'
 DECODE_MODE = 'utf-8'
+DEFAULT_BAUDRATE = TRANSM_SPEED[DEFAULT_BAUDRATE_INDEX]
+
 
 # TEXTOS DE VENTANA DE CONEXION
 CONNWINDOW_TEXT = "Establecer conexión con estación terrena"
 CONNWINDOW_PORT = "Puerto serie"
 CONNWINDOW_SPEED = "Velocidad de transmisión"
 CONNWINDOW_BEGIN = "Iniciar"
-TRANSM_SPEED = [
-    "300", "600", "1200", "2400", "4800", "9600",
-    "14400", "28800", "38400", "57600", "115200"
-]
 CONNWINDOW_RELOAD = "Recargar"
 ERRORMSG_TITLE = "Error"
 ERRORMSG_COMM = "Hubo un error en la comunicación"
-
 
 # TEXTOS DE HANDLER DEL ARDUINO
 ERROR_START = "e"
