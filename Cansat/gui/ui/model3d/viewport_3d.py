@@ -123,6 +123,7 @@ class Viewport3D(QWidget):
 class Canvas3D(FigureCanvas):
     def __init__(self, parent=None):
         mpl_figure = Figure(figsize=(4, 4))
+        mpl_figure.set_facecolor(MESH_BACKGROUND)
 
         self.axis = mpl_figure.add_axes([0, 0, 1, 1], xlim=[-1, +1], ylim=[-1, +1], aspect=1)
         self.axis.axis("off")

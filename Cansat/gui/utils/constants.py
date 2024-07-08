@@ -17,7 +17,7 @@ from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 # Version
-VERSION = "v0.5.0"
+VERSION = "v0.5.1"
 
 
 
@@ -55,7 +55,7 @@ WAITWINDOW_LABEL = "Esperando estación terrena..."
 WAITWINDOW_CANCEL = "Cancelar"
 
 # VALORES POR DEFECTO DE GRAFICAS
-GRAPH_BACKGROUND = 'w'
+GRAPH_BACKGROUND = 'k'
 GRAPH_UPDINTERVAL = 500
 GRAPH_ENABLEMOUSE = False
 GRAPH_PENWIDTH = 5
@@ -74,9 +74,11 @@ PRES_COLOR = [0, 255, 0]
 
 # VALORES DE VISOR 3D
 MESH_PATH = "lowsoda.obj"
-MESH_COLORMAP = "magma"
+MESH_COLORMAP = "viridis"
+MESH_BACKGROUND = 'black'
 CAMERA_MODE = "ortho"
 CAMERA_SCALE = 1
+
 
 # CONSTANTES DE CONFIGURACION
 CONFIG_NAME = "DEFAULT"
