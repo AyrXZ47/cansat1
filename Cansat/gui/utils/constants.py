@@ -1,3 +1,18 @@
+# Copyright (C) 2024  Ndahai Arenas
+#
+# Dragon's CanSat Monitor is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Dragon's CanSat Monitor is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Dragon's CanSat Monitor. If not, see <http://www.gnu.org/licenses/>.
+
 from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
@@ -7,7 +22,7 @@ VERSION = "v0.4.3"
 
 
 # CONSTANTES
-WINDOW_TITLE = "Visualizador de CanSat " + VERSION
+WINDOW_TITLE = "Dragon's CanSat Monitor" + VERSION
 DEFAULT_BAUDRATE_INDEX = 5
 TRANSM_SPEED = [
     "300", "600", "1200", "2400", "4800", "9600",
