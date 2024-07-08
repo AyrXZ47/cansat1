@@ -73,7 +73,8 @@ PRES_COLOR = [0, 255, 0]
 
 
 # VALORES DE VISOR 3D
-MESH_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources', 'lowsoda.obj')
+MESH_NAME = "cone.obj"
+MESH_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources', MESH_NAME)
 MESH_COLORMAP = "viridis"
 MESH_BACKGROUND = 'black'
 CAMERA_MODE = "ortho"
