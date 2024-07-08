@@ -2,7 +2,7 @@ from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 # Version
-VERSION = "v0.3.1"
+VERSION = "v0.3.2"
 
 # CONSTANTES
 WINDOW_TITLE = "Visualizador de CanSat " + VERSION
@@ -42,7 +42,7 @@ TEMP_COLOR = [255, 0, 0]  # rojo
 MESH_PATH = "lowsoda.obj"
 MESH_COLORMAP = "magma"
 CAMERA_MODE = "ortho"
-CAMERA_SCALE = 2
+CAMERA_SCALE = 1
 
 # CONSTANTES DE CONFIGURACION
 CONFIG_NAME = "DEFAULT"

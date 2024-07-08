@@ -31,17 +31,62 @@
 # -----------------------------------------------------------------------------
 
 
-
-import numpy as np
-from PyQt6.QtWidgets import QWidget, QVBoxLayout
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QApplication
 from mpl3d import glm
 from mpl3d.mesh import Mesh
 from mpl3d.camera import Camera
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
+import numpy as np
 import meshio
+import sys
 from Cansat.gui.utils.constants import *
+
+
+def frustum(left, right, bottom, top, znear, zfar):
+    M = np.zeros((4, 4), dtype=np.float32)
+    M[0, 0] = +2.0 * znear / (right - left)
+    M[1, 1] = +2.0 * znear / (top - bottom)
+    M[2, 2] = -(zfar + znear) / (zfar - znear)
+    M[0, 2] = (right + left) / (right - left)
+    M[2, 1] = (top + bottom) / (top - bottom)
+    M[2, 3] = -2.0 * znear * zfar / (zfar - znear)
+    M[3, 2] = -1.0
+    return M
+
+
+def perspective(fovy, aspect, znear, zfar):
+    h = np.tan(0.5 * np.radians(fovy)) * znear
+    w = h * aspect
+    return frustum(-w, w, -h, h, znear, zfar)
+
+
+def translate(x, y, z):
+    return np.array([[1, 0, 0, x], [0, 1, 0, y],
+                     [0, 0, 1, z], [0, 0, 0, 1]], dtype=float)
+
+
+def xrotate(theta):
+    t = np.pi * theta / 180
+    c, s = np.cos(t), np.sin(t)
+    return np.array([[1, 0, 0, 0], [0, c, -s, 0],
+                     [0, s, c, 0], [0, 0, 0, 1]], dtype=float)
+
+
+def yrotate(theta):
+    t = np.pi * theta / 180
+    c, s = np.cos(t), np.sin(t)
+    return np.array([[c, 0, s, 0], [0, 1, 0, 0],
+                     [-s, 0, c, 0], [0, 0, 0, 1]], dtype=float)
+
+
+def zrotate(theta):
+    t = np.pi * theta / 180
+    c, s = np.cos(t), np.sin(t)
+    return np.array([[c, -s, 0, 0], [s, c, 0, 0],
+                     [0, 0, 1, 0], [0, 0, 0, 1]], dtype=float)
+
 
 class Viewport3D(QWidget):
     def __init__(self, parent=None):
@@ -54,44 +99,33 @@ class Viewport3D(QWidget):
         self.plot()
 
     def plot(self):
-        camera = Camera(CAMERA_MODE, scale=CAMERA_SCALE)
+        self.camera = Camera(CAMERA_MODE, scale=CAMERA_SCALE)
 
-        mesh = meshio.read(MESH_PATH)
-        vertices = mesh.points
-        faces = mesh.cells[0].data
-        vertices = glm.fit_unit_cube(vertices)
-        mesh = Mesh(self.canvas.axis, camera.transform, vertices, faces, cmap=plt.get_cmap(MESH_COLORMAP), edgecolors=(0,0,0,0.25))
+        self.mesh_data = meshio.read(MESH_PATH)
+        self.vertices = self.mesh_data.points
+        self.faces = self.mesh_data.cells[0].data
+        self.vertices = glm.fit_unit_cube(self.vertices)
+        self.mesh = Mesh(self.canvas.axis, self.camera.transform, self.vertices, self.faces,
+                         cmap=plt.get_cmap(MESH_COLORMAP), edgecolors=(0, 0, 0, 0.25))
 
-        camera.connect(self.canvas.axis, mesh.update)
+        self.camera.connect(self.canvas.axis, self.mesh.update)
         self.canvas.draw()
 
+    def rotate(self, angle_x, angle_y, angle_z):
+        MVP = perspective(25, 1, 1, 100) @ translate(0, 0, -3.5) @ xrotate(angle_x) @ yrotate(angle_y) @ zrotate(
+            angle_z)
+        self.mesh.update(MVP)
+        self.canvas.draw()
 
 
 class Canvas3D(FigureCanvas):
     def __init__(self, parent=None):
-        mpl_figure = Figure(figsize=(4,4))
+        mpl_figure = Figure(figsize=(4, 4))
 
-        self.axis = mpl_figure.add_axes([0,0,1,1], xlim=[-1, +1], ylim=[-1,+1], aspect=1)
+        self.axis = mpl_figure.add_axes([0, 0, 1, 1], xlim=[-1, +1], ylim=[-1, +1], aspect=1)
         self.axis.axis("off")
 
         super().__init__(mpl_figure)
         self.setParent(parent)
 
 
-# --- main --------------------------------------------------------------------
-# if __name__ == "__main__":
-#     import matplotlib.pyplot as plt
-#
-#     fig = plt.figure(figsize=(4,4))
-#     ax = fig.add_axes([0,0,1,1], xlim=[-1,+1], ylim=[-1,+1], aspect=1)
-#     ax.axis("off")
-#
-#     camera = Camera("ortho", scale=2)
-#     mesh = meshio.read("../../resources/lowsoda.obj")
-#     vertices = mesh.points
-#     faces = mesh.cells[0].data
-#     vertices = glm.fit_unit_cube(vertices)
-#     mesh = Mesh(ax, camera.transform, vertices, faces,
-#                 cmap=plt.get_cmap("magma"),  edgecolors=(0,0,0,0.25))
-#     camera.connect(ax, mesh.update)
-#     plt.show()
