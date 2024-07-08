@@ -15,7 +15,6 @@ class TemperatureGraph(qtgraph.PlotWidget):
         self.setBackground(GRAPH_BACKGROUND)
         self.setMouseEnabled(x=GRAPH_ENABLEMOUSE, y=GRAPH_ENABLEMOUSE)
 
-    # TODO Actualizar método para recibir datos de la estacion terrena
     def update_data(self, new_data):
         self.temp_data = numpy.roll(self.temp_data, -1)
         self.temp_data[-1] = new_data

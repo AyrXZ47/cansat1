@@ -1,4 +1,3 @@
-from PyQt6.QtCore import Qt, QThread, pyqtSignal
 from PyQt6.QtGui import QColor, QFont
 from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit, QVBoxLayout, QComboBox, QPushButton, \
     QProgressDialog, QMessageBox, QHBoxLayout
@@ -28,7 +27,7 @@ class ConnectionWindow(QWidget):
     # Inicializar elementos
     def init_progress_dialog(self):
         self.progress_dialog = QProgressDialog(WAITWINDOW_LABEL, WAITWINDOW_CANCEL, 0, 0, self)
-        self.progress_dialog.setWindowTitle("Espere...")
+        self.progress_dialog.setWindowTitle(WAITWINDOW_TITLE)
         self.progress_dialog.setWindowModality(Qt.WindowModality.WindowModal)
         self.progress_dialog.setValue(0)
         self.progress_dialog.canceled.connect(self.on_thread_finished)
@@ -58,7 +57,7 @@ class ConnectionWindow(QWidget):
         # Obtener los puertos y añadirlos a la lista
         self.port_combobox = QComboBox()
 
-        self.reload_button =  QPushButton("Recargar")
+        self.reload_button =  QPushButton(CONNWINDOW_RELOAD)
         self.reload_button.clicked.connect(self.populate_ports_combobox)
 
         port_layout = QHBoxLayout()
@@ -78,8 +77,7 @@ class ConnectionWindow(QWidget):
         for x in range (len(baudrates)):
             self.rate_combobox.addItem(baudrates[x])
 
-        self.rate_combobox.setPlaceholderText("9600")
-        self.rate_combobox.setCurrentIndex(5)
+        self.rate_combobox.setCurrentIndex(DEFAULT_BAUDRATE_INDEX)
 
         # Definir layout
         layout = QGridLayout()
@@ -108,8 +106,7 @@ class ConnectionWindow(QWidget):
             if self.progress_dialog:
                 self.progress_dialog.canceled.disconnect(self.on_thread_finished)
                 self.progress_dialog.close()
-        elif (data.startswith("Esperando") or data.startswith("Iniciando")):
-            print("waiting")
+        elif (data.startswith(WAITING_STARTING1) or data.startswith(WAITING_STARTING2)):
             if not self.progress_dialog:
                 self.init_progress_dialog()
                 self.progress_dialog.show()
@@ -164,7 +161,7 @@ class ConnectionWindow(QWidget):
     # Mostrar mensaje de error si hay un error en la estación terrena
     def show_gndstation_error_dialog(self, error_message):
         self.on_thread_finished()
-        QMessageBox.critical(self, 'Error', error_message.capitalize())
+        QMessageBox.critical(self, ERRORMSG_TITLE, error_message.capitalize())
 
     # Mostrar mensaje de error si hubo un error de comunicacion entre la estacion y el programa.
     def show_communication_error_dialog(self):
@@ -172,7 +169,7 @@ class ConnectionWindow(QWidget):
             self.progress_dialog.close()
         else:
             self.on_thread_finished()
-        QMessageBox.critical(self, 'Error','Hubo un error en la comunicación')
+        QMessageBox.critical(self, ERRORMSG_TITLE,ERRORMSG_COMM)
 
 
 

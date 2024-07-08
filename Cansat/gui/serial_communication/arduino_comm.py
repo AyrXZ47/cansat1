@@ -4,7 +4,7 @@ import serial
 import serial.tools.list_ports
 from PyQt6.QtCore import QObject, pyqtSignal
 
-from Cansat.gui.utils.constants import DEFAULT_BAUDRATE, NULL_COMMUNICATION
+from Cansat.gui.utils.constants import DEFAULT_BAUDRATE, NULL_COMMUNICATION, DECODE_MODE
 
 
 # Objeto que manejará la comunicación entre
@@ -73,7 +73,7 @@ class ArduinoComm(QObject):
         while True:
             try:
                 serial_msg = self.arduino.readline()
-                serial_msg = serial_msg.decode('utf-8').rstrip()
+                serial_msg = serial_msg.decode(DECODE_MODE).rstrip()
                 self.serial_received.emit(serial_msg)
             except Exception as e:
                 self.serial_error.emit()

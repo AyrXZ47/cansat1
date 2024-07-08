@@ -6,8 +6,9 @@ VERSION = "v0.4.2"
 
 # CONSTANTES
 WINDOW_TITLE = "Visualizador de CanSat " + VERSION
-DEFAULT_BAUDRATE = 9600
+DEFAULT_BAUDRATE_INDEX = 5
 NULL_COMMUNICATION = 'No se ha abierto la comunicación'
+DECODE_MODE = 'utf-8'
 
 # TEXTOS DE VENTANA DE CONEXION
 CONNWINDOW_TEXT = "Establecer conexión con estación terrena"
@@ -18,8 +19,20 @@ TRANSM_SPEED = [
     "300", "600", "1200", "2400", "4800", "9600",
     "14400", "28800", "38400", "57600", "115200"
 ]
+CONNWINDOW_RELOAD = "Recargar"
+ERRORMSG_TITLE = "Error"
+ERRORMSG_COMM = "Hubo un error en la comunicación"
+
+
+# TEXTOS DE HANDLER DEL ARDUINO
+ERROR_START = "e"
+WAITING_STARTING1 = "Esperando"
+WAITING_STARTING2 = "Iniciando"
+
+
 
 # TEXTOS DE VENTANA DE ESPERA
+WAITWINDOW_TITLE = "Espere..."
 WAITWINDOW_LABEL = "Esperando estación terrena..."
 WAITWINDOW_CANCEL = "Cancelar"
 

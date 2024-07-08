@@ -80,9 +80,6 @@ class MainWindow(QMainWindow):
 
         self.statusbar = QStatusBar()
         self.setStatusBar(self.statusbar)
-
-        self.statusbar.showMessage("Ready")
-
         self.setVisible(True)
 
 
