@@ -2,7 +2,7 @@ from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 # Version
-VERSION = "v0.4.0"
+VERSION = "v0.4.1"
 
 # CONSTANTES
 WINDOW_TITLE = "Visualizador de CanSat " + VERSION
@@ -20,7 +20,7 @@ TRANSM_SPEED = [
 ]
 
 # TEXTOS DE VENTANA DE ESPERA
-WAITWINDOW_LABEL = "Esperando señal del CanSat"
+WAITWINDOW_LABEL = "Esperando estación terrena..."
 WAITWINDOW_CANCEL = "Cancelar"
 
 # VALORES POR DEFECTO DE GRAFICAS

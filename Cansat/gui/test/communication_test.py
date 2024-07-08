@@ -7,4 +7,4 @@ for x in range(len(ports)):
 port_number = int(input("Selecciona puerto "))
 arduino.select_port(ports[port_number - 1].device.split()[0])
 arduino.begin_communication()
-arduino.msg_test()
+arduino.readln_serial()

@@ -1,7 +1,7 @@
 from PyQt6.QtCore import Qt, QThread, pyqtSignal
 from PyQt6.QtGui import QColor, QFont
 from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit, QVBoxLayout, QComboBox, QPushButton, \
-    QProgressDialog, QMessageBox
+    QProgressDialog, QMessageBox, QHBoxLayout
 from Cansat.gui.serial_communication.communication_thread import CommunicationThread
 from Cansat.gui.ui.wait_cansat_window import WaitCansatWindow
 from Cansat.gui.ui.main_window import MainWindow
@@ -43,6 +43,7 @@ class ConnectionWindow(QWidget):
         self.thread = CommunicationThread(selected_port, selected_speed)
         self.thread.data_received.connect(self.data_event_handler)
         self.thread.finished.connect(self.on_thread_finished)
+        self.thread.data_error.connect(self.show_communication_error_dialog)
         self.thread.start()
 
     def open_mainwindow(self):
@@ -71,7 +72,7 @@ class ConnectionWindow(QWidget):
 
         print(data)
         if(data.startswith("e")):
-            self.show_error_dialog(data)
+            self.show_gndstation_error_dialog(data)
             if self.progress_dialog:
                 self.progress_dialog.canceled.disconnect(self.on_thread_finished)
                 self.progress_dialog.close()
@@ -89,6 +90,7 @@ class ConnectionWindow(QWidget):
                 self.progress_dialog.canceled.disconnect(self.on_thread_finished)
                 self.progress_dialog.close()
             self.thread.data_received.disconnect(self.data_event_handler)
+            self.thread.data_error.disconnect(self.show_communication_error_dialog)
             self.open_mainwindow()
 
     # def validate_data(self, data):
@@ -98,9 +100,16 @@ class ConnectionWindow(QWidget):
     #     return False
 
 
-    def show_error_dialog(self, error_message):
+    def show_gndstation_error_dialog(self, error_message):
         self.on_thread_finished()
         QMessageBox.critical(self, 'Error', error_message.capitalize())
+
+    def show_communication_error_dialog(self):
+        if self.progress_dialog:
+            self.progress_dialog.close()
+        else:
+            self.on_thread_finished()
+        QMessageBox.critical(self, 'Error','Hubo un error en la comunicación')
 
     # Función para construir la ventana (agrega elementos, define layout, etc.)
     def initUI(self):
@@ -125,10 +134,19 @@ class ConnectionWindow(QWidget):
 
         # Obtener los puertos y añadirlos a la lista
         self.port_combobox = QComboBox()
-        ports = ArduinoComm.list_available_devices()
 
-        for x in range (len(ports)):
-            self.port_combobox.addItem(ports[x])
+        self.reload_button =  QPushButton("Recargar")
+        self.reload_button.clicked.connect(self.populate_ports_combobox)
+
+        port_layout = QHBoxLayout()
+        port_layout.addWidget(self.port_combobox)
+        port_layout.addWidget(self.reload_button)
+
+        port_panel = QWidget()
+        port_panel.setLayout(port_layout)
+
+        self.populate_ports_combobox()
+
 
         # Obtener las velocidades posibles del puerto serie
         self.rate_combobox = QComboBox()
@@ -137,6 +155,8 @@ class ConnectionWindow(QWidget):
         for x in range (len(baudrates)):
             self.rate_combobox.addItem(baudrates[x])
 
+        self.rate_combobox.setPlaceholderText("9600")
+        self.rate_combobox.setCurrentIndex(5)
 
         # Definir layout
         layout = QGridLayout()
@@ -146,12 +166,21 @@ class ConnectionWindow(QWidget):
 
         layout.addWidget(title, 0, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(serial_text, 1, 0, Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(self.port_combobox, 2, 0, Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(port_panel, 2, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(speed_text, 3, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.rate_combobox, 4, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.begin_button, 5, 0, Qt.AlignmentFlag.AlignCenter)
 
         self.begin_button.clicked.connect(self.begin_button_pressed)
+
+
+    def populate_ports_combobox(self):
+        ports = ArduinoComm.list_available_devices()
+        self.port_combobox.clear()
+
+        for x in range(len(ports)):
+            self.port_combobox.addItem(ports[x])
+
 
 
 

@@ -13,6 +13,7 @@ from Cansat.gui.utils.constants import DEFAULT_BAUDRATE, NULL_COMMUNICATION
 class ArduinoComm(QObject):
 
     serial_received = pyqtSignal(str)
+    serial_error = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -66,18 +67,6 @@ class ArduinoComm(QObject):
     # Iniciar comunicación
     def begin_communication(self):
         self.arduino = serial.Serial(self.port, self.baudrate)
-        print("pablo")
-        # try:
-        #     self.arduino = serial.Serial(self.port, self.baudrate, timeout=1)
-        #     time.sleep(2)  # Esperar a que el puerto serie se inicialice
-        #     if self.handshake_with_arduino():
-        #         self.arduino_found = True
-        #         print(f"Arduino found on port {self.port}")
-        #     else:
-        #         print(f"No Arduino on port {self.port}")
-        #         self.close_communication()
-        # except serial.SerialException as e:
-        #     print(f"Error: {e}")
 
     # Cerrar comunicación
     def close_communication(self):
@@ -87,14 +76,18 @@ class ArduinoComm(QObject):
             self.arduino.close()
 
     # Test de recibir datos
-    def msg_test(self):
-        if (self.validate_communication() == False):
+    def readln_serial(self):
+        if not self.validate_communication():
             raise Exception(NULL_COMMUNICATION)
 
-        while (1):
-            serial_msg = self.arduino.readline()
-            serial_msg = serial_msg.decode('utf-8').rstrip()
-            self.serial_received.emit(serial_msg)
+        while True:
+            try:
+                serial_msg = self.arduino.readline()
+                serial_msg = serial_msg.decode('utf-8').rstrip()
+                self.serial_received.emit(serial_msg)
+            except Exception as e:
+                self.serial_error.emit()
+
 
     # Validar si se ha iniciado comunicación
     def validate_communication(self):
