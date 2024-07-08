@@ -87,7 +87,7 @@ def zrotate(theta):
     return np.array([[c, -s, 0, 0], [s, c, 0, 0],
                      [0, 0, 1, 0], [0, 0, 0, 1]], dtype=float)
 
-
+# Widget que se insertara en la ventana
 class Viewport3D(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -97,6 +97,7 @@ class Viewport3D(QWidget):
         self.canvas = Canvas3D(self)
         self.layout.addWidget(self.canvas)
         self.plot()
+
 
     def plot(self):
         self.camera = Camera(CAMERA_MODE, scale=CAMERA_SCALE)
@@ -118,6 +119,7 @@ class Viewport3D(QWidget):
         self.canvas.draw()
 
 
+# Actua como lienzo para el widget
 class Canvas3D(FigureCanvas):
     def __init__(self, parent=None):
         mpl_figure = Figure(figsize=(4, 4))
@@ -127,32 +129,5 @@ class Canvas3D(FigureCanvas):
 
         super().__init__(mpl_figure)
         self.setParent(parent)
-
-
-# --- main --------------------------------------------------------------------
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    viewport = Viewport3D()
-    viewport.show()
-
-
-    def request_rotation():
-        while True:
-            try:
-                angles = input("Enter rotation angles (x y z) or 'exit' to quit: ")
-                if angles.lower() == 'exit':
-                    break
-                angle_x, angle_y, angle_z = map(float, angles.split())
-                viewport.rotate(angle_x, angle_y, angle_z)
-            except Exception as e:
-                print(f"Error: {e}. Please enter valid angles.")
-
-
-    import threading
-
-    rotation_thread = threading.Thread(target=request_rotation)
-    rotation_thread.start()
-
-    sys.exit(app.exec())
 
 

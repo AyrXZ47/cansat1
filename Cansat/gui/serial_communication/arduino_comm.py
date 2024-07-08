@@ -39,6 +39,12 @@ class ArduinoComm(QObject):
 
         return device_list
 
+    # Validar si se ha iniciado comunicación
+    def validate_communication(self):
+        if (self.arduino is None or self.port is None):
+            return False
+        else:
+            return True
 
     # Seleccionar el puerto (a partir de la lista de puertos)
     def select_port(self, port):
@@ -47,22 +53,6 @@ class ArduinoComm(QObject):
     # Seleccionar velocidad (a partir de la lista)
     def select_baudrate(self, baudrate):
         self.baudrate = baudrate
-
-    def handshake_with_arduino(self, timeout=10):
-        start_time = time.time()
-        while True:
-            if self.arduino.in_waiting > 0:
-                line = self.arduino.readline().decode('utf-8').strip()
-                if line == "HANDSHAKE":
-                    print("Handshake received from Arduino")
-                    self.arduino.write(b"CONFIRM\n")
-                    print("Handshake confirmed")
-                    return True
-            # Verificar si el timeout ha sido alcanzado
-            if time.time() - start_time > timeout:
-                print(f"Timeout reached on port {self.port}")
-                return False
-            time.sleep(0.1)
 
     # Iniciar comunicación
     def begin_communication(self):
@@ -75,7 +65,7 @@ class ArduinoComm(QObject):
         else:
             self.arduino.close()
 
-    # Test de recibir datos
+    # Recibir datos
     def readln_serial(self):
         if not self.validate_communication():
             raise Exception(NULL_COMMUNICATION)
@@ -89,11 +79,5 @@ class ArduinoComm(QObject):
                 self.serial_error.emit()
 
 
-    # Validar si se ha iniciado comunicación
-    def validate_communication(self):
-        if (self.arduino is None or self.port is None):
-            return False
-        else:
-            return True
 
 

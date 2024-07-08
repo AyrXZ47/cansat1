@@ -86,6 +86,7 @@ class MainWindow(QMainWindow):
         self.setVisible(True)
 
 
+    # Handlers
     def handle_received_data(self, data):
         print(data)
         self.statusbar.showMessage(data)
