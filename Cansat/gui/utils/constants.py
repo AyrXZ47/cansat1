@@ -17,8 +17,30 @@ from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 # Version
-VERSION = "v0.6.4"
-DEBUG = True
+VERSION = "v0.6.5"
+DEBUG = False
+
+#TODO
+# Parametros configurables
+# DEBUG = False Checkbox
+
+# GRAPH_BACKGROUND = 'k' Colorpicker
+# GRAPH_PENWIDTH = 2 Slider
+# GRAPH_HISTORYSIZE = 30 Textedit
+# GRAPH_ANTIALIAS = True Checkbox
+# GRAPH_PENSTYLE = Qt.PenStyle.SolidLine Combobox
+# TEMP_COLOR = [255, 0, 0]  # rojo Color picker
+# ACCL_COLOR1 = [153, 0, 153] Color picker
+# ACCL_COLOR2 = [153, 153, 0] Color picker
+# ACCL_COLOR3 = [204, 102, 0] Color picker
+# ALTI_COLOR = [0, 0, 255] Color picker
+# PRES_COLOR = [0, 255, 0] Color picker
+
+# MESH_COLORMAP = "viridis" Combobox
+# MESH_BACKGROUND = 'gray' Color picker
+# CAMERA_MODE = "ortho" Combobox
+# CAMERA_SCALE = 1 Combobox (numbers)
+
 
 
 
@@ -59,8 +81,6 @@ CONNWINDOW_DEBUG = "Debug"
 # TEXTOS DE HANDLER DEL ARDUINO
 ERROR_START = "e"
 WAITING_STARTING1 = "Esperando"
-WAITING_STARTING2 = "pablo"
-
 
 
 # TEXTOS DE VENTANA DE ESPERA

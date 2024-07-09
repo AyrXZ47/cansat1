@@ -64,6 +64,7 @@ class ConnectionWindow(QWidget):
         serial_text = QLabel(CONNWINDOW_PORT)
         speed_text = QLabel(CONNWINDOW_SPEED)
         self.begin_button = QPushButton(CONNWINDOW_BEGIN)
+        self.config_button = QPushButton("CONFIG")
 
         font = QFont()
         font.setPointSize(20)
@@ -99,10 +100,9 @@ class ConnectionWindow(QWidget):
         layout = QGridLayout()
         self.setLayout(layout)
         layout.setContentsMargins(15,15,15,15)
-
         self.debug_button = QPushButton(CONNWINDOW_DEBUG)
 
-
+        layout.addWidget(self.config_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
         layout.addWidget(title, 0, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(serial_text, 1, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(port_panel, 2, 0, Qt.AlignmentFlag.AlignCenter)
@@ -129,7 +129,7 @@ class ConnectionWindow(QWidget):
             if self.progress_dialog:
                 self.progress_dialog.canceled.disconnect(self.on_thread_finished)
                 self.progress_dialog.close()
-        elif (data.startswith(WAITING_STARTING1) or data.startswith(WAITING_STARTING2)):
+        elif (data.startswith(WAITING_STARTING1)):
             if not self.progress_dialog:
                 self.init_progress_dialog()
                 self.progress_dialog.show()
