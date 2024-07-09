@@ -76,7 +76,11 @@ class ArduinoComm(QObject):
             print("DEBUG")
             self.debug = True
         else:
-            self.arduino = serial.Serial(self.port, self.baudrate)
+            try:
+                self.arduino = serial.Serial(self.port, self.baudrate)
+            except serial.SerialException as e:
+                self.serial_error.emit()
+
             print("a")
 
 
