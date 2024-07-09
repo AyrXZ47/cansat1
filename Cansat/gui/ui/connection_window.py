@@ -99,6 +99,8 @@ class ConnectionWindow(QWidget):
         self.setLayout(layout)
         layout.setContentsMargins(15,15,15,15)
 
+        self.debug_button = QPushButton(CONNWINDOW_DEBUG)
+
 
         layout.addWidget(title, 0, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(serial_text, 1, 0, Qt.AlignmentFlag.AlignCenter)
@@ -106,6 +108,11 @@ class ConnectionWindow(QWidget):
         layout.addWidget(speed_text, 3, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.rate_combobox, 4, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.begin_button, 5, 0, Qt.AlignmentFlag.AlignCenter)
+
+        if DEBUG:
+            layout.addWidget(self.debug_button, 6, 0, Qt.AlignmentFlag.AlignLeft)
+            self.debug_button.clicked.connect(self.debug_button_pressed)
+
 
         self.begin_button.clicked.connect(self.begin_button_pressed)
 
@@ -135,6 +142,18 @@ class ConnectionWindow(QWidget):
 
 
     # Eventos
+    def debug_button_pressed(self):
+        selected_port = CONNWINDOW_DEBUG
+        selected_speed = int(DEFAULT_BAUDRATE)
+
+        self.thread = CommunicationThread(selected_port, selected_speed)
+        self.thread.data_received.connect(self.data_event_handler)
+        self.thread.finished.connect(self.on_thread_finished)
+        self.thread.data_error.connect(self.show_communication_error_dialog)
+        self.thread.start()
+
+        self.open_mainwindow()
+
     def populate_ports_combobox(self):
         ports = ArduinoComm.list_available_devices()
         self.port_combobox.clear()

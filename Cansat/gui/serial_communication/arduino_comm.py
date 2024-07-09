@@ -12,12 +12,14 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Dragon's CanSat Monitor. If not, see <http://www.gnu.org/licenses/>.
+import random
+import time
 
 import serial
 import serial.tools.list_ports
-from PyQt6.QtCore import QObject, pyqtSignal
+from PyQt6.QtCore import QObject, pyqtSignal, QTimer
 
-from utils.constants import DEFAULT_BAUDRATE, NULL_COMMUNICATION, DECODE_MODE
+from utils.constants import DEFAULT_BAUDRATE, NULL_COMMUNICATION, DECODE_MODE, CONNWINDOW_DEBUG
 
 
 # Objeto que manejará la comunicación entre
@@ -34,6 +36,7 @@ class ArduinoComm(QObject):
         self.arduino = None
         self.baudrate = DEFAULT_BAUDRATE
         self.arduino_found = False
+        self.debug = False
 
     # Listar puertos disponibles en el equipo (varía dependiendo del OS)
     @staticmethod
@@ -69,7 +72,12 @@ class ArduinoComm(QObject):
 
     # Iniciar comunicación
     def begin_communication(self):
-        self.arduino = serial.Serial(self.port, self.baudrate)
+        if self.port == CONNWINDOW_DEBUG:
+            print("DEBUG")
+            self.debug = True
+        else:
+            self.arduino = serial.Serial(self.port, self.baudrate)
+
 
     # Cerrar comunicación
     def close_communication(self):
@@ -80,6 +88,11 @@ class ArduinoComm(QObject):
 
     # Recibir datos
     def readln_serial(self):
+        if self.debug == True:
+            while True:
+                self.serial_received.emit(self.generate_debug_data())
+                time.sleep(0.5)
+
         if not self.validate_communication():
             raise Exception(NULL_COMMUNICATION)
 
@@ -90,6 +103,13 @@ class ArduinoComm(QObject):
                 self.serial_received.emit(serial_msg)
             except Exception as e:
                 self.serial_error.emit()
+
+    def generate_debug_data(self):
+        random_numbers = [random.randint(-20, 99) for _ in range(6)]
+        data_string = ",".join(map(str, random_numbers))
+        print (data_string)
+        return data_string
+
 
 
 

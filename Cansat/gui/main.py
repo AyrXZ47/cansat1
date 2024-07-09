@@ -24,3 +24,6 @@ if __name__ == "__main__":
     window = ConnectionWindow()
     window.show()
     sys.exit(app.exec())
+
+# EMPAQUETAR
+# pyinstaller --onefile --windowed --icon=app.ico --add-data "resources/cone.obj:resources" main.py
