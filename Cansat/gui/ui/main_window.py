@@ -18,7 +18,7 @@ import math
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor, QFont
 from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit, QStatusBar, QMainWindow, QHBoxLayout, QCheckBox, \
-    QMessageBox
+    QMessageBox, QPushButton
 
 from ui.graphs.three_pen_graph import ThreePenGraph
 from utils.constants import *
@@ -128,8 +128,9 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(self.accel_widget, 1, 3)
 
         # Boton de configuracion (no sé donde ponerlo y que se vea bien)
-        self.config_label = QLabel('config:')
-        self.layout.addWidget(self.config_label, 0, 3, alignment=Qt.AlignmentFlag.AlignRight)
+        self.back_button = QPushButton("< Volver")
+        self.layout.addWidget(self.back_button, 0, 0, alignment=Qt.AlignmentFlag.AlignLeft)
+        self.back_button.clicked.connect(self.reopen_connection_window)
 
         self.statusbar = QStatusBar()
         self.setStatusBar(self.statusbar)
@@ -138,6 +139,17 @@ class MainWindow(QMainWindow):
         self.toggle_graphs()
         self.statusbar.addPermanentWidget(self.graph_checkbox)
         self.setVisible(True)
+
+
+
+    # Eventos
+
+    def reopen_connection_window(self):
+        self.conn_window.center()
+        self.conn_window.show()
+        self.setVisible(False)
+        self.conn_window.on_thread_finished()
+        self.close()
 
     def toggle_graphs(self):
         if self.graph_checkbox.isChecked():
@@ -168,12 +180,12 @@ class MainWindow(QMainWindow):
 
     # Handlers
     def handle_communication_error(self):
+        self.conn_window.center()
         self.conn_window.show()
         self.setVisible(False)
         QMessageBox.critical(self, ERRORMSG_TITLE, "Hubo un error de comunicacion")
         self.comm_thread.terminate()
         self.close()
-
 
 
     def handle_received_data(self, data):
