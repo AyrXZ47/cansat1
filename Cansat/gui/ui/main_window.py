@@ -28,7 +28,7 @@ from ui.model3d.viewport_3d import Viewport3D
 # Clase que define el layout, elementos y propiedades de la ventana principal
 
 class MainWindow(QMainWindow):
-    def __init__(self, comm_thread):
+    def __init__(self, comm_thread, connwindow):
         super().__init__()
         self.comm_thread = comm_thread
         self.comm_thread.data_received.connect(self.handle_received_data)
@@ -36,6 +36,7 @@ class MainWindow(QMainWindow):
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
         self.show_graphs = False
+        self.conn_window = connwindow
         self.initUI()
 
     # Función para centrar la ventana
@@ -167,23 +168,11 @@ class MainWindow(QMainWindow):
 
     # Handlers
     def handle_communication_error(self):
-        from ui.connection_window import ConnectionWindow
-        conn = ConnectionWindow()
-        conn.show()
-        QMessageBox.critical(self, ERRORMSG_TITLE, "error")
-
+        self.conn_window.show()
+        self.setVisible(False)
+        QMessageBox.critical(self, ERRORMSG_TITLE, "Hubo un error de comunicacion")
         self.comm_thread.terminate()
-
-
-    def reopen_app(self):
-        print("pablo")
-
-
-
-
-
-
-
+        self.close()
 
 
 

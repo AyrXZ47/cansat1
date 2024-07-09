@@ -189,7 +189,7 @@ class ConnectionWindow(QWidget):
 
     # Abrir ventana principal si se establece conexion exitosa con la estacion terrena
     def open_mainwindow(self):
-        self.main_window = MainWindow(self.thread)
+        self.main_window = MainWindow(self.thread, self)
         self.main_window.show()
         self.close()
 

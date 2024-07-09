@@ -17,8 +17,8 @@ from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 # Version
-VERSION = "v0.6.2"
-DEBUG = False
+VERSION = "v0.6.3"
+DEBUG = True
 
 
 
@@ -87,10 +87,10 @@ PRES_COLOR = [0, 255, 0]
 
 
 # VALORES DE VISOR 3D
-MESH_NAME = "cone.obj"
+MESH_NAME = "lowsoda.obj"
 MESH_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources', MESH_NAME)
 MESH_COLORMAP = "viridis"
-MESH_BACKGROUND = 'black'
+MESH_BACKGROUND = 'gray'
 CAMERA_MODE = "ortho"
 CAMERA_SCALE = 1
 
