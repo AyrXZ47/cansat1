@@ -17,8 +17,8 @@ from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 # Version
-VERSION = "v0.6.0"
-DEBUG = True
+VERSION = "v0.6.1"
+DEBUG = False
 
 
 
@@ -59,7 +59,7 @@ CONNWINDOW_DEBUG = "Debug"
 # TEXTOS DE HANDLER DEL ARDUINO
 ERROR_START = "e"
 WAITING_STARTING1 = "Esperando"
-WAITING_STARTING2 = "Iniciando"
+WAITING_STARTING2 = "pablo"
 
 
 

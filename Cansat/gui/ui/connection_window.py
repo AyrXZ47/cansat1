@@ -29,6 +29,7 @@ class ConnectionWindow(QWidget):
         self.main_window = None
         self.progress_dialog = None
         self.initUI()
+        print("Init connection window")
 
 
     # Función para centrar la ventana
@@ -199,10 +200,7 @@ class ConnectionWindow(QWidget):
 
     # Mostrar mensaje de error si hubo un error de comunicacion entre la estacion y el programa.
     def show_communication_error_dialog(self):
-        if self.progress_dialog:
-            self.progress_dialog.close()
-        else:
-            self.on_thread_finished()
+        self.on_thread_finished()
         QMessageBox.critical(self, ERRORMSG_TITLE,ERRORMSG_COMM)
 
 

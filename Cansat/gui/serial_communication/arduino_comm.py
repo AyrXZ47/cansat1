@@ -77,6 +77,9 @@ class ArduinoComm(QObject):
             self.debug = True
         else:
             self.arduino = serial.Serial(self.port, self.baudrate)
+            print("a")
+
+
 
 
     # Cerrar comunicación
@@ -95,14 +98,21 @@ class ArduinoComm(QObject):
 
         if not self.validate_communication():
             raise Exception(NULL_COMMUNICATION)
+        try:
+            while True:
+                try:
+                    serial_msg = self.arduino.readline()
+                    serial_msg = serial_msg.decode(DECODE_MODE)
+                    print(serial_msg)
+                    self.serial_received.emit(serial_msg.rstrip())
+                except UnicodeDecodeError as e:
+                    print(f"Decode error: {e}. Skipping this byte.")
+                    continue  # Skip the problematic byte and continue reading
+        except serial.SerialException as e:
+            self.serial_error.emit()
+        finally:
+            self.arduino.close()
 
-        while True:
-            try:
-                serial_msg = self.arduino.readline()
-                serial_msg = serial_msg.decode(DECODE_MODE).rstrip()
-                self.serial_received.emit(serial_msg)
-            except Exception as e:
-                self.serial_error.emit()
 
     def generate_debug_data(self):
         random_numbers = [random.randint(-20, 99) for _ in range(6)]

@@ -17,7 +17,8 @@ import math
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor, QFont
-from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit, QStatusBar, QMainWindow, QHBoxLayout, QCheckBox
+from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit, QStatusBar, QMainWindow, QHBoxLayout, QCheckBox, \
+    QMessageBox
 
 from ui.graphs.three_pen_graph import ThreePenGraph
 from utils.constants import *
@@ -31,6 +32,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.comm_thread = comm_thread
         self.comm_thread.data_received.connect(self.handle_received_data)
+        self.comm_thread.data_error.connect(self.handle_communication_error)
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
         self.show_graphs = False
@@ -164,6 +166,27 @@ class MainWindow(QMainWindow):
 
 
     # Handlers
+    def handle_communication_error(self):
+        from ui.connection_window import ConnectionWindow
+        conn = ConnectionWindow()
+        conn.show()
+        QMessageBox.critical(self, ERRORMSG_TITLE, "error")
+
+        self.comm_thread.terminate()
+
+
+    def reopen_app(self):
+        print("pablo")
+
+
+
+
+
+
+
+
+
+
     def handle_received_data(self, data):
         print(data)
         self.statusbar.showMessage(data)
