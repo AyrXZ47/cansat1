@@ -30,13 +30,13 @@ from ui.model3d.viewport_3d import Viewport3D
 class MainWindow(QMainWindow):
     def __init__(self, comm_thread, connwindow):
         super().__init__()
+        self.conn_window = connwindow
         self.comm_thread = comm_thread
         self.comm_thread.data_received.connect(self.handle_received_data)
         self.comm_thread.data_error.connect(self.handle_communication_error)
+        self.show_graphs = False
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
-        self.show_graphs = False
-        self.conn_window = connwindow
         self.initUI()
 
     # Función para centrar la ventana
@@ -52,10 +52,8 @@ class MainWindow(QMainWindow):
         # Definir propiedades de la ventana.
         print("si")
         self.setWindowTitle(WINDOW_TITLE)
-        #self.setBaseSize(800, 400)
         self.setGeometry(100, 100, 800, 400)
         self.center()
-
 
         # Definir layout
         self.layout = QGridLayout()
@@ -69,37 +67,45 @@ class MainWindow(QMainWindow):
         self.layout.setColumnStretch(1, 1)
         self.layout.setColumnStretch(2, 1)
 
+        # Definir estilos
+        font = QFont()
+        font.setPointSize(36)
 
-
-        # Aqui irá el widget para el modelo 3D
-        # layout.addWidget(QLabel('Modelo 3D'), 1, 0, 2, 2, alignment=Qt.AlignmentFlag.AlignCenter)
+        # Definir elementos
         self.viewport3D = Viewport3D()
-        self.viewport3D.setMinimumSize(300, 300)
-        self.layout.addWidget(self.viewport3D, 1, 0, 2, 2)
-
-        # Aqui se agregarán las graficas con los datos
-        # layout.addWidget(QLabel('Grafica 1:'), 1, 2, alignment=Qt.AlignmentFlag.AlignCenter)
-
         self.temp_graph = SinglePenGraph(TEMP_COLOR)
         self.acel_graph = ThreePenGraph(ACCL_COLOR1, ACCL_COLOR2, ACCL_COLOR3)
         self.alti_graph = SinglePenGraph(ALTI_COLOR)
         self.pres_graph = SinglePenGraph(PRES_COLOR)
-
-        self.temp_graph.setMinimumWidth(300)
-        self.acel_graph.setMinimumWidth(300)
-        self.alti_graph.setMinimumWidth(300)
-        self.pres_graph.setMinimumWidth(300)
-
-
         self.temp_label = QLabel(TEMP_PLACEHOLDER)
         self.acelX_label = QLabel(ACEL_PLACEHOLDER)
         self.acelY_label = QLabel(ACEL_PLACEHOLDER)
         self.acelZ_label = QLabel(ACEL_PLACEHOLDER)
         self.alti_label = QLabel(ALTI_PLACEHOLDER)
         self.pres_label = QLabel(PRES_PLACEHOLDER)
+        self.back_button = QPushButton("< Volver")
+        self.statusbar = QStatusBar()
+        self.graph_checkbox = QCheckBox(MAINWINDOW_GRAPH_CHECKBOX)
 
-        font = QFont()
-        font.setPointSize(36)
+
+            # Widget de aceleracion
+        self.accel_widget = QWidget()
+        accel_layout = QHBoxLayout()
+        self.accel_widget.setLayout(accel_layout)
+
+        accel_layout.addWidget(self.acelX_label)
+        accel_layout.addWidget(self.acelY_label)
+        accel_layout.addWidget(self.acelZ_label)
+
+
+        # Definir propiedades de widgets
+        self.viewport3D.setMinimumSize(300, 300)
+        self.temp_graph.setMinimumWidth(300)
+        self.acel_graph.setMinimumWidth(300)
+        self.alti_graph.setMinimumWidth(300)
+        self.pres_graph.setMinimumWidth(300)
+
+        # Aplicar estilos
         self.temp_label.setFont(font)
         self.acelX_label.setFont(font)
         self.acelY_label.setFont(font)
@@ -107,39 +113,30 @@ class MainWindow(QMainWindow):
         self.alti_label.setFont(font)
         self.pres_label.setFont(font)
 
-
-        #if
+        # Agregar a layout
+        self.layout.addWidget(self.viewport3D, 1, 0, 2, 2)
         self.layout.addWidget(self.temp_graph, 1, 2)
         self.layout.addWidget(self.acel_graph, 1, 3)
         self.layout.addWidget(self.alti_graph, 2, 2)
         self.layout.addWidget(self.pres_graph, 2, 3)
-        #else
-
-        self.accel_widget = QWidget()
-        accel_layout = QHBoxLayout()
-        self.accel_widget.setLayout(accel_layout)
-
         self.layout.addWidget(self.temp_label, 1, 2)
-        accel_layout.addWidget(self.acelX_label)
-        accel_layout.addWidget(self.acelY_label)
-        accel_layout.addWidget(self.acelZ_label)
         self.layout.addWidget(self.alti_label, 2, 2)
         self.layout.addWidget(self.pres_label, 2, 3)
         self.layout.addWidget(self.accel_widget, 1, 3)
-
-        self.back_button = QPushButton("< Volver")
         self.layout.addWidget(self.back_button, 0, 0, alignment=Qt.AlignmentFlag.AlignLeft)
-        self.back_button.clicked.connect(self.reopen_connection_window)
-
-        self.statusbar = QStatusBar()
         self.setStatusBar(self.statusbar)
-        self.graph_checkbox = QCheckBox(MAINWINDOW_GRAPH_CHECKBOX)
-        self.graph_checkbox.stateChanged.connect(self.toggle_graphs)
-        self.toggle_graphs()
         self.statusbar.addPermanentWidget(self.graph_checkbox)
+
+
+
+
+        # Conectar con eventos
+        self.back_button.clicked.connect(self.reopen_connection_window)
+        self.graph_checkbox.stateChanged.connect(self.toggle_graphs)
+
+
+        self.toggle_graphs()
         self.setVisible(True)
-
-
 
     # Eventos
 
@@ -200,7 +197,7 @@ class MainWindow(QMainWindow):
         raw_data = data.split(DATA_SEPARATOR)
 
         if(len(raw_data) == 6):
-            altitude = raw_data[0]
+            altitude = int(raw_data[0])
             pressure = raw_data[1]
             accelX = int(raw_data[2])
             accelY = int(raw_data[3])
