@@ -31,7 +31,7 @@ void setup() {
   radio.startListening();
 
   if (!SD.begin(4)) {
-    Serial.println("Error al iniciar la tarjeta SD");
+    Serial.println("error al iniciar la tarjeta SD");
     while (1);
   }
 
@@ -65,31 +65,25 @@ void loop() {
 
     Serial.println("Datos recibidos del CANSAT:");
 
-    Serial.print("Altitud: ");
     Serial.print(packet.altitude);
-    Serial.println(" metros");
+    Serial.print(",");
 
-    Serial.print("Presión: ");
     Serial.print(packet.pressure);
-    Serial.println(" hPa");
+    Serial.print(",");
 
-    Serial.print("Aceleración X: ");
     Serial.print(packet.acceleration[0]);
-    Serial.println(" m/s^2");
+    Serial.print(",");
 
-    Serial.print("Aceleración Y: ");
     Serial.print(packet.acceleration[1]);
-    Serial.println(" m/s^2");
+    Serial.print(",");
 
-    Serial.print("Aceleración Z: ");
     Serial.print(packet.acceleration[2]);
-    Serial.println(" m/s^2");
+    Serial.print(",");
 
-    Serial.print("Temperatura: ");
     Serial.print(packet.temperature);
-    Serial.println(" grados Celsius");
+    Serial.println();
 
-    // Guardar datos en la tarjeta SD
+    //Guardar datos en la tarjeta SD
     dataFile = SD.open("DATA.csv", FILE_WRITE);
     if (dataFile) {
       dataFile.print(packet.altitude);
