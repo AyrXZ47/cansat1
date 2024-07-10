@@ -184,12 +184,18 @@ class MainWindow(QMainWindow):
         self.setVisible(False)
         QMessageBox.critical(self, ERRORMSG_TITLE, "Hubo un error de comunicacion")
         self.comm_thread.terminate()
+        self.conn_window.enable_window()
+        self.conn_window.show()
         self.close()
 
 
     def handle_received_data(self, data):
         print(data)
         self.statusbar.showMessage(data)
+
+        if (data.startswith("e")):
+            self.handle_communication_error()
+            return 0
 
         raw_data = data.split(DATA_SEPARATOR)
 

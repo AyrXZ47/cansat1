@@ -181,6 +181,9 @@ class ConnectionWindow(QWidget):
     def on_thread_finished(self):
         print("TERMINADO")
         self.thread.terminate()  # FIXME Finalizar el hilo de comunicación correctamente
+        self.enable_window()
+
+    def enable_window(self):
         self.port_combobox.setEnabled(True)
         self.rate_combobox.setEnabled(True)
         self.begin_button.setEnabled(True)
