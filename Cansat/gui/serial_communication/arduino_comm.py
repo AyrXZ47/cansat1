@@ -28,7 +28,7 @@ from utils.constants import DEFAULT_BAUDRATE, NULL_COMMUNICATION, DECODE_MODE, C
 class ArduinoComm(QObject):
 
     serial_received = pyqtSignal(str)
-    serial_error = pyqtSignal()
+    serial_error = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
@@ -79,7 +79,7 @@ class ArduinoComm(QObject):
             try:
                 self.arduino = serial.Serial(self.port, self.baudrate)
             except serial.SerialException as e:
-                self.serial_error.emit()
+                self.serial_error.emit(e.__str__())
 
             print("a")
 
@@ -113,7 +113,7 @@ class ArduinoComm(QObject):
                     print(f"Decode error: {e}. Skipping this byte.")
                     continue  # Skip the problematic byte and continue reading
         except serial.SerialException as e:
-            self.serial_error.emit()
+            self.serial_error.emit(e.__str__())
         finally:
             self.arduino.close()
 

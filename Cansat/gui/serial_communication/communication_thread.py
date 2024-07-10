@@ -21,7 +21,7 @@ from serial_communication.arduino_comm import ArduinoComm
 
 class CommunicationThread(QThread):
     data_received = pyqtSignal(str)
-    data_error = pyqtSignal()
+    data_error = pyqtSignal(str)
     finished = pyqtSignal()
 
     # Recibiraá el puerto y la velocidad

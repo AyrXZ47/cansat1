@@ -200,11 +200,11 @@ class ConnectionWindow(QWidget):
         QMessageBox.critical(self, ERRORMSG_TITLE, error_message.capitalize())
 
     # Mostrar mensaje de error si hubo un error de comunicacion entre la estacion y el programa.
-    def show_communication_error_dialog(self):
+    def show_communication_error_dialog(self, data:str):
         if self.progress_dialog:
             self.progress_dialog.canceled.disconnect(self.on_thread_finished)
             self.progress_dialog.close()
-        QMessageBox.critical(self, ERRORMSG_TITLE,ERRORMSG_COMM)
+        QMessageBox.critical(self, ERRORMSG_TITLE, data.capitalize())
         self.on_thread_finished()
 
 

@@ -178,11 +178,11 @@ class MainWindow(QMainWindow):
 
 
     # Handlers
-    def handle_communication_error(self):
+    def handle_communication_error(self, data:str):
         self.conn_window.center()
         self.conn_window.show()
         self.setVisible(False)
-        QMessageBox.critical(self, ERRORMSG_TITLE, "Hubo un error de comunicacion")
+        QMessageBox.critical(self, ERRORMSG_TITLE, data.capitalize())
         self.comm_thread.terminate()
         self.conn_window.enable_window()
         self.conn_window.show()
@@ -194,7 +194,7 @@ class MainWindow(QMainWindow):
         self.statusbar.showMessage(data)
 
         if (data.startswith("e")):
-            self.handle_communication_error()
+            self.handle_communication_error(data)
             return 0
 
         raw_data = data.split(DATA_SEPARATOR)
