@@ -127,7 +127,6 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(self.pres_label, 2, 3)
         self.layout.addWidget(self.accel_widget, 1, 3)
 
-        # Boton de configuracion (no sé donde ponerlo y que se vea bien)
         self.back_button = QPushButton("< Volver")
         self.layout.addWidget(self.back_button, 0, 0, alignment=Qt.AlignmentFlag.AlignLeft)
         self.back_button.clicked.connect(self.reopen_connection_window)

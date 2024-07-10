@@ -64,7 +64,6 @@ class ConnectionWindow(QWidget):
         serial_text = QLabel(CONNWINDOW_PORT)
         speed_text = QLabel(CONNWINDOW_SPEED)
         self.begin_button = QPushButton(CONNWINDOW_BEGIN)
-        self.config_button = QPushButton("CONFIG")
 
         font = QFont()
         font.setPointSize(20)
