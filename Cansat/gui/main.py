@@ -25,5 +25,15 @@ if __name__ == "__main__":
     window.show()
     sys.exit(app.exec())
 
-# EMPAQUETAR
+# EMPAQUETAR MAC
+# Sin consola
 # pyinstaller --onefile --windowed --icon=resources/icon.icns --add-data "resources/cone.obj:resources" --add-data "resources/lowsoda.obj:resources" main.py
+# Con consola
+# pyinstaller --onefile --icon=resources/icon.icns --add-data "resources/cone.obj:resources" --add-data "resources/lowsoda.obj:resources" main.py
+
+# Empaquetar Windows
+# Sin consola
+# pyinstaller --onefile --windowed --icon=resources/icono.ics --add-data "resources/cone.obj:resources" --add-data "resources/lowsoda.obj:resources" main.py
+
+# Con consola
+# pyinstaller --onefile --icon=resources/icono.ics --add-data "resources/cone.obj:resources" --add-data "resources/lowsoda.obj:resources" main.py
