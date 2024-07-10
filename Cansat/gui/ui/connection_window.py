@@ -101,7 +101,6 @@ class ConnectionWindow(QWidget):
         layout.setContentsMargins(15,15,15,15)
         self.debug_button = QPushButton(CONNWINDOW_DEBUG)
 
-        layout.addWidget(self.config_button, 0, 0, Qt.AlignmentFlag.AlignLeft)
         layout.addWidget(title, 0, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(serial_text, 1, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(port_panel, 2, 0, Qt.AlignmentFlag.AlignCenter)
