@@ -56,51 +56,49 @@ class ConnectionWindow(QWidget):
         self.setBaseSize(800, 400)
         self.setGeometry(100, 100, 800, 400)
         self.center()
+        layout = QGridLayout()
+        self.setLayout(layout)
+        layout.setContentsMargins(15, 15, 15, 15)
 
-
+        # Definir estilos
+        font = QFont()
+        font.setPointSize(20)
 
         # Definir elementos
         title = QLabel(CONNWINDOW_TEXT)
         serial_text = QLabel(CONNWINDOW_PORT)
         speed_text = QLabel(CONNWINDOW_SPEED)
         self.begin_button = QPushButton(CONNWINDOW_BEGIN)
-
-        font = QFont()
-        font.setPointSize(20)
-        title.setFont(font)
-
-
-        # Obtener los puertos y añadirlos a la lista
         self.port_combobox = QComboBox()
-
         self.reload_button =  QPushButton(CONNWINDOW_RELOAD)
-        self.reload_button.clicked.connect(self.populate_ports_combobox)
-
         port_layout = QHBoxLayout()
         port_layout.addWidget(self.port_combobox)
         port_layout.addWidget(self.reload_button)
-
         port_panel = QWidget()
         port_panel.setLayout(port_layout)
-
-        self.populate_ports_combobox()
-
-
-        # Obtener las velocidades posibles del puerto serie
         self.rate_combobox = QComboBox()
-        baudrates = TRANSM_SPEED
-
-        for x in range (len(baudrates)):
-            self.rate_combobox.addItem(baudrates[x])
-
-        self.rate_combobox.setCurrentIndex(DEFAULT_BAUDRATE_INDEX)
-
-        # Definir layout
-        layout = QGridLayout()
-        self.setLayout(layout)
-        layout.setContentsMargins(15,15,15,15)
         self.debug_button = QPushButton(CONNWINDOW_DEBUG)
 
+        # Aplicar estilos
+        title.setFont(font)
+
+        # Poblar elementos
+        self.populate_ports_combobox()
+        for x in range (len(TRANSM_SPEED)):
+            self.rate_combobox.addItem(TRANSM_SPEED[x])
+
+        # Conectar con eventos
+        self.reload_button.clicked.connect(self.populate_ports_combobox)
+        self.begin_button.clicked.connect(self.begin_button_pressed)
+        if DEBUG:
+            layout.addWidget(self.debug_button, 6, 0, Qt.AlignmentFlag.AlignLeft)
+            self.debug_button.clicked.connect(self.debug_button_pressed)
+
+
+        # Establecer valores por defecto
+        self.rate_combobox.setCurrentIndex(DEFAULT_BAUDRATE_INDEX)
+
+        # Agregar elementos a layout
         layout.addWidget(title, 0, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(serial_text, 1, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(port_panel, 2, 0, Qt.AlignmentFlag.AlignCenter)
@@ -108,20 +106,9 @@ class ConnectionWindow(QWidget):
         layout.addWidget(self.rate_combobox, 4, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(self.begin_button, 5, 0, Qt.AlignmentFlag.AlignCenter)
 
-        if DEBUG:
-            layout.addWidget(self.debug_button, 6, 0, Qt.AlignmentFlag.AlignLeft)
-            self.debug_button.clicked.connect(self.debug_button_pressed)
-
-
-        self.begin_button.clicked.connect(self.begin_button_pressed)
-
-
-
     # Handlers
     def data_event_handler(self, data: str):
         received_data = data.split(",")
-
-        print(data)
         if (data.startswith("e")):
             self.show_gndstation_error_dialog(data)
             if self.progress_dialog:
@@ -140,7 +127,8 @@ class ConnectionWindow(QWidget):
             self.open_mainwindow()
 
 
-    # Eventos
+
+    ## Eventos ##
     def debug_button_pressed(self):
         selected_port = CONNWINDOW_DEBUG
         selected_speed = int(DEFAULT_BAUDRATE)
@@ -152,13 +140,6 @@ class ConnectionWindow(QWidget):
         self.thread.start()
 
         self.open_mainwindow()
-
-    def populate_ports_combobox(self):
-        ports = ArduinoComm.list_available_devices()
-        self.port_combobox.clear()
-
-        for x in range(len(ports)):
-            self.port_combobox.addItem(ports[x])
 
     # Al presionar el boton de iniciar
     def begin_button_pressed(self):
@@ -183,6 +164,19 @@ class ConnectionWindow(QWidget):
         self.thread.terminate()  # FIXME Finalizar el hilo de comunicación correctamente
         self.enable_window()
 
+
+
+    ## Procesos ##
+
+    # Obtener puertos serie disponibles
+    def populate_ports_combobox(self):
+        ports = ArduinoComm.list_available_devices()
+        self.port_combobox.clear()
+
+        for x in range(len(ports)):
+            self.port_combobox.addItem(ports[x])
+
+    # Activar elementos de la ventana
     def enable_window(self):
         self.port_combobox.setEnabled(True)
         self.rate_combobox.setEnabled(True)
