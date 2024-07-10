@@ -20,29 +20,6 @@ from PyQt6.QtCore import QTimer, Qt
 VERSION = "v0.6.6"
 DEBUG = True
 
-#TODO
-# Parametros configurables
-# DEBUG = False Checkbox
-
-# GRAPH_BACKGROUND = 'k' Colorpicker
-# GRAPH_PENWIDTH = 2 Slider
-# GRAPH_HISTORYSIZE = 30 Textedit
-# GRAPH_ANTIALIAS = True Checkbox
-# GRAPH_PENSTYLE = Qt.PenStyle.SolidLine Combobox
-# TEMP_COLOR = [255, 0, 0]  # rojo Color picker
-# ACCL_COLOR1 = [153, 0, 153] Color picker
-# ACCL_COLOR2 = [153, 153, 0] Color picker
-# ACCL_COLOR3 = [204, 102, 0] Color picker
-# ALTI_COLOR = [0, 0, 255] Color picker
-# PRES_COLOR = [0, 255, 0] Color picker
-
-# MESH_COLORMAP = "viridis" Combobox
-# MESH_BACKGROUND = 'gray' Color picker
-# CAMERA_MODE = "ortho" Combobox
-# CAMERA_SCALE = 1 Combobox (numbers)
-
-
-
 
 # CONSTANTES
 WINDOW_TITLE = "Dragon's CanSat Monitor" + " " + VERSION
@@ -107,6 +84,10 @@ PRES_COLOR = [0, 255, 0]
 
 
 # VALORES DE VISOR 3D
+# This project uses the 3D model "Low Poly Soda Can"
+# by sanekcloff, available at https://skfb.ly/owLss
+# licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
+# Removed texture mappings
 MESH_NAME = "lowsoda.obj"
 MESH_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources', MESH_NAME)
 MESH_COLORMAP = "viridis"

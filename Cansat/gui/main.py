@@ -26,4 +26,4 @@ if __name__ == "__main__":
     sys.exit(app.exec())
 
 # EMPAQUETAR
-# pyinstaller --onefile --windowed --icon=app.ico --add-data "resources/cone.obj:resources" main.py
+# pyinstaller --onefile --windowed --icon=app.icns --add-data "resources/cone.obj:resources" --add-data "resources/lowsoda.obj:resources" main.py
