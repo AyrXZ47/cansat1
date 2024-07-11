@@ -71,10 +71,10 @@ class MainWindow(QMainWindow):
 
         # Definir elementos
         self.viewport3D = Viewport3D()
-        self.temp_graph = SinglePenGraph(TEMP_COLOR, title="Temperatura")
-        self.acel_graph = ThreePenGraph(ACCL_COLOR1, ACCL_COLOR2, ACCL_COLOR3, title = "Aceleración")
-        self.alti_graph = SinglePenGraph(ALTI_COLOR, title="Altitud")
-        self.pres_graph = SinglePenGraph(PRES_COLOR, title="Presión")
+        self.temp_graph = SinglePenGraph(TEMP_COLOR, title=TEMP_TITLE)
+        self.acel_graph = ThreePenGraph(ACCL_COLOR1, ACCL_COLOR2, ACCL_COLOR3, title = ACCL_TITLE)
+        self.alti_graph = SinglePenGraph(ALTI_COLOR, title=ALTI_TITLE)
+        self.pres_graph = SinglePenGraph(PRES_COLOR, title=PRES_TITLE)
         self.temp_label = QLabel(TEMP_PLACEHOLDER)
         self.acelX_label = QLabel(ACEL_PLACEHOLDER)
         self.acelY_label = QLabel(ACEL_PLACEHOLDER)

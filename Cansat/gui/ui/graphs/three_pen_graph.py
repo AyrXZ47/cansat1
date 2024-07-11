@@ -16,14 +16,20 @@
 import pyqtgraph as qtgraph
 import numpy
 from PyQt6.QtCore import QTimer, Qt
+from PyQt6.QtGui import QFont
+
 from utils.constants import *
 
 class ThreePenGraph(qtgraph.PlotWidget):
 
     def __init__(self, graph_color1, graph_color2, graph_color3,parent=None, title=""):
         super().__init__(parent)
+
+        # Configurar la fuente
+
         pen_color = (graph_color1)
         pen_width = GRAPH_PENWIDTH
+
         self.setTitle(title, color=ACCENT_COLOR, size=GRAPH_TITLESIZE)
 
 

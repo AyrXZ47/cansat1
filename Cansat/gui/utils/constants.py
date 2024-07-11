@@ -17,7 +17,7 @@ from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 # Version
-VERSION = "v0.7.0"
+VERSION = "v0.7.1"
 DEBUG = True
 
 
@@ -76,6 +76,10 @@ GRAPH_HISTORYSIZE = 30
 GRAPH_ANTIALIAS = True
 GRAPH_PENSTYLE = Qt.PenStyle.SolidLine
 GRAPH_TITLESIZE = '10pt'
+GRAPH_TITLECOLOR = 'g'
+GRAPH_FONTFAMILY = 'monaspace'
+GRAPH_FONTSIZE = '100pt'
+
 
 # VALORES ESPECIFICOS PARA CADA GRAFICA
 TEMP_COLOR = [255, 0, 0]  # rojo
@@ -84,6 +88,13 @@ ACCL_COLOR2 = [153, 153, 0]
 ACCL_COLOR3 = [204, 102, 0]
 ALTI_COLOR = [0, 0, 255]
 PRES_COLOR = [0, 255, 0]
+
+
+TEMP_TITLE = "Temperatura"
+ACCL_TITLE = "Aceleración"
+ALTI_TITLE = "Altitud"
+PRES_TITLE = "Presión"
+
 
 
 # VALORES DE VISOR 3D
