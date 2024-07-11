@@ -26,18 +26,17 @@ from utils.constants import *
 
 
 # Clase que define el layout, elementos y propiedades de la ventana principal
-
 class MainWindow(QMainWindow):
     def __init__(self, comm_thread, connwindow):
         super().__init__()
-        self.conn_window = connwindow
-        self.comm_thread = comm_thread
-        self.comm_thread.data_received.connect(self.handle_received_data)
-        self.comm_thread.data_error.connect(self.handle_communication_error)
-        self.show_graphs = False
-        self.central_widget = QWidget()
+        self.conn_window = connwindow # Recibir ventana de conexion
+        self.comm_thread = comm_thread # Recibir hilo
+        self.comm_thread.data_received.connect(self.handle_received_data) # Conectar senñal de recibido con el handler de esta ventana
+        self.comm_thread.data_error.connect(self.handle_communication_error) # Conectar señal de error con el handler de esta ventana
+        self.show_graphs = False # Las graficas no se muestran por defecto
+        self.central_widget = QWidget() # Establecer widget central
         self.setCentralWidget(self.central_widget)
-        self.initUI()
+        self.initUI() # Inicializar UI
 
     # Función para centrar la ventana
     def center(self):
@@ -50,13 +49,13 @@ class MainWindow(QMainWindow):
     # Función para construir la ventana (agrega elementos, define layout, etc.)
     def initUI(self):
         # Definir propiedades de la ventana.
-        print("si")
+        print("Inicializar ventana principal")
         self.setWindowTitle(WINDOW_TITLE)
         self.setGeometry(100, 100, 950, 400)
         self.center()
 
         # Definir layout
-        self.layout = QGridLayout()
+        self.layout = QGridLayout() #
         self.central_widget.setLayout(self.layout)
 
         # Ajustar stretch de filas y columnas para que se estiren igualmente.
@@ -81,7 +80,7 @@ class MainWindow(QMainWindow):
         self.acelZ_label = QLabel(ACEL_PLACEHOLDER)
         self.alti_label = QLabel(ALTI_PLACEHOLDER)
         self.pres_label = QLabel(PRES_PLACEHOLDER)
-        self.back_button = QPushButton("< Volver")
+        self.back_button = QPushButton(BACK_BTTN)
         self.statusbar = QStatusBar()
         self.graph_checkbox = QCheckBox(MAINWINDOW_GRAPH_CHECKBOX)
 
@@ -155,12 +154,13 @@ class MainWindow(QMainWindow):
 
 
         # Conectar con eventos
-        self.back_button.clicked.connect(self.reopen_connection_window)
-        self.graph_checkbox.stateChanged.connect(self.toggle_graphs)
+        self.back_button.clicked.connect(self.reopen_connection_window) # Al volver, reabrir ventana de conexion
+        self.graph_checkbox.stateChanged.connect(self.toggle_graphs) # Conectar checkbox con el metodo toggle_graphs
 
 
         self.toggle_graphs()
-        self.setVisible(True)
+
+        # Si se desean aplicar los estilos desde constants.py
         if APPLY_CSS_STYLE:
             self.setStyleSheet(STYLE_SHEET)
             self.temp_widget.setStyleSheet(WIDGET_STYLESHEET)
@@ -172,7 +172,7 @@ class MainWindow(QMainWindow):
             pres_title.setStyleSheet(TITLE_STYLESHEET)
             accel_title.setStyleSheet(TITLE_STYLESHEET)
 
-
+        self.setVisible(True)
 
     # Eventos
 
@@ -181,12 +181,12 @@ class MainWindow(QMainWindow):
         self.conn_window.center()
         self.conn_window.show()
         self.setVisible(False)
-        self.conn_window.on_thread_finished()
+        self.conn_window.on_thread_finished() # Finalizar hilo de comunicacion desde la ventana de conexion
         self.close()
 
     def toggle_graphs(self):
         if self.graph_checkbox.isChecked():
-            # Dibujar graficos y eliminar texto
+            # Dibujar graficos y ocultar texto
             self.temp_widget.setVisible(False)
             self.accel_widget.setVisible(False)
             self.alti_widget.setVisible(False)
@@ -199,7 +199,7 @@ class MainWindow(QMainWindow):
 
 
         else:
-            # Dibujar texto y eliminar graficos
+            # Dibujar texto y ocultar graficos
             self.temp_widget.setVisible(True)
             self.accel_widget.setVisible(True)
             self.alti_widget.setVisible(True)
@@ -213,20 +213,22 @@ class MainWindow(QMainWindow):
 
     # Handlers
     def handle_communication_error(self, data:str):
-        self.conn_window.center()
+        self.conn_window.center() # Mostrar la ventana de comunicacion
         self.conn_window.show()
         self.setVisible(False)
-        #self.comm_thread.terminate()
         QMessageBox.critical(self, ERRORMSG_TITLE, data.capitalize())
         self.conn_window.enable_window()
         self.conn_window.show()
         self.close()
+    # El hilo termina automaticamente al detectar un error de comunicacion, por eso no
+    # se finaliza manualmente desde este metodo
+
 
     def handle_gndstation_error(self, data:str):
         self.conn_window.center()
-        self.conn_window.show()
+        self.conn_window.show() # Mostrar ventana de conexion
         self.setVisible(False)
-        self.comm_thread.terminate()
+        self.comm_thread.terminate() # Terminar hilo de comunicacion manualmente (se trata de un error de estacion terrena)
         QMessageBox.critical(self, ERRORMSG_TITLE, data.capitalize())
         self.conn_window.enable_window()
         self.conn_window.show()
@@ -237,12 +239,15 @@ class MainWindow(QMainWindow):
         print(data)
         self.statusbar.showMessage(data)
 
-        if (data.startswith(ERROR_START)):
+        if (data.startswith(ERROR_START)): # Si se reciben datos, pero se trata de un error de la estacion, se manda a llamar el metodo
             self.handle_gndstation_error(data)
             return 0
 
-        raw_data = data.split(DATA_SEPARATOR)
+        raw_data = data.split(DATA_SEPARATOR) # Separar datos
 
+        # Asignar datos a variables en la forma
+        # altitud, presion, x, y, z, temp
+        # Ademas de calcular el roll y pitch en base a las aceleraciones
         if(len(raw_data) == 6):
             altitude = int(raw_data[0])
             pressure = raw_data[1]
@@ -253,6 +258,7 @@ class MainWindow(QMainWindow):
             roll = math.atan2(accelY, accelZ)
             pitch = math.atan2(-accelX, math.sqrt(accelY * accelY + accelZ * accelZ))
 
+            # Actualizar graficos y labels
             self.temp_graph.update_data(temp)
             self.acel_graph.update_data(accelX, accelY, accelZ)
             self.alti_graph.update_data(altitude)

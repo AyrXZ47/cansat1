@@ -17,7 +17,7 @@ from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 # Version
-VERSION = "v0.7.4-rc"
+VERSION = "v0.7.4a-rc"
 DEBUG = True
 
 
@@ -45,6 +45,7 @@ TEMP_PLACEHOLDER = "-- ˚C"
 ACEL_PLACEHOLDER = "-- m/s"
 PRES_PLACEHOLDER = "-- hPa"
 ALTI_PLACEHOLDER = "-- m"
+BACK_BTTN = "< Volver"
 
 
 # TEXTOS DE VENTANA DE CONEXION

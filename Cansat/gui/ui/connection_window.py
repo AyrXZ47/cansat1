@@ -25,9 +25,10 @@ from utils.constants import *
 
 # Clase que define el layout, elementos y propiedades de la ventana de conexión
 class ConnectionWindow(QWidget):
+    # Es el punto de entrada del programa
     def __init__(self):
         super().__init__()
-        self.main_window = None
+        self.main_window = None # Definir ventana principal como atributo de la clase
         self.progress_dialog = None
         self.initUI()
         print("Init connection window")
@@ -110,16 +111,24 @@ class ConnectionWindow(QWidget):
     # Handlers
     def data_event_handler(self, data: str):
         received_data = data.split(",")
-        if (data.startswith(ERROR_START)):
+        if (data.startswith(ERROR_START)): # Si se recibieron datos pero se trata de un error,
+                                            # mostrar el mensaje de error, y desconectar el
+                                            # hilo del dialogo de progreso para evitar
+                                            # que se congele
             self.show_gndstation_error_dialog(data)
             if self.progress_dialog:
                 self.progress_dialog.canceled.disconnect(self.on_thread_finished)
                 self.progress_dialog.close()
+
+        # Si llega un mensaje de espera, mostrar el dialogo de progreso y construirlo si aun no lo está
         elif (data.startswith(WAITING_STARTING1)):
             if not self.progress_dialog:
                 self.init_progress_dialog()
                 self.progress_dialog.show()
         else:
+            # Si se recibe otro dato, desconectar el dialogo de progreso de la finalizacion del hilo
+            # despues cerrar el dialogo y desconectar los handlers de esta ventana, para abrir
+            # la ventana principal.
             if self.progress_dialog:
                 self.progress_dialog.canceled.disconnect(self.on_thread_finished)
                 self.progress_dialog.close()
@@ -131,39 +140,41 @@ class ConnectionWindow(QWidget):
 
     ## Eventos ##
     def debug_button_pressed(self):
-        selected_port = CONNWINDOW_DEBUG
-        selected_speed = int(DEFAULT_BAUDRATE)
+        selected_port = CONNWINDOW_DEBUG # Establecer puerto seleccionado como DEBUG
+        selected_speed = int(DEFAULT_BAUDRATE) # La velocidad es irrelevante
 
-        self.thread = CommunicationThread(selected_port, selected_speed)
-        self.thread.data_received.connect(self.data_event_handler)
-        self.thread.finished.connect(self.on_thread_finished)
+        self.thread = CommunicationThread(selected_port, selected_speed) # Crear hilo con parametros
+        self.thread.data_received.connect(self.data_event_handler)  # Cada vez que se reciba un mensaje proveniente
+                                                                    # de la señal de datos recibidos, se manda a llamar
+                                                                    # la funcion data_event_handler
+        self.thread.finished.connect(self.on_thread_finished)       # Se realizan los procedimientos de finalizacion del hilo al recibir la señal
         self.thread.data_error.connect(self.show_communication_error_dialog)
-        self.thread.start()
+        self.thread.start() # iniciar el hilo
 
-        self.open_mainwindow()
+        self.open_mainwindow() # abrir la ventana principal
 
     # Al presionar el boton de iniciar
     def begin_button_pressed(self):
-        self.init_progress_dialog()
+        self.init_progress_dialog() # Inicializar dialogo de progreso
         self.progress_dialog.show()
-        self.port_combobox.setEnabled(False)
+        self.port_combobox.setEnabled(False) # Desactivar elementos de la ventana
         self.rate_combobox.setEnabled(False)
         self.begin_button.setEnabled(False)
 
-        selected_port = self.port_combobox.currentText()
-        selected_speed = int(self.rate_combobox.currentText())
+        selected_port = self.port_combobox.currentText() # Obtener puerto desde el combobox
+        selected_speed = int(self.rate_combobox.currentText()) # Obtener velocidad desde el combobox
 
-        self.thread = CommunicationThread(selected_port, selected_speed)
-        self.thread.data_received.connect(self.data_event_handler)
+        self.thread = CommunicationThread(selected_port, selected_speed) # Crear hilo de comunicacion con parametros
+        self.thread.data_received.connect(self.data_event_handler) # Conectar señal de datos recibidos con el handler para los datos
         self.thread.finished.connect(self.on_thread_finished)
-        self.thread.data_error.connect(self.show_communication_error_dialog)
-        self.thread.start()
+        self.thread.data_error.connect(self.show_communication_error_dialog) # Conectar señal de error con el dialogo de error
+        self.thread.start() # Iniciar hilo
 
     # Cuando se finalice la conexión (el hilo) se volveraán a habilitar los selectores
     def on_thread_finished(self):
         print("TERMINADO")
         self.thread.terminate()  # FIXME Finalizar el hilo de comunicación correctamente
-        self.enable_window()
+        self.enable_window() # Reactivar ventana
 
 
 
@@ -171,7 +182,7 @@ class ConnectionWindow(QWidget):
 
     # Obtener puertos serie disponibles
     def populate_ports_combobox(self):
-        ports = ArduinoComm.list_available_devices()
+        ports = ArduinoComm.list_available_devices() # Obtener puertos disponibles en el equipo
         self.port_combobox.clear()
 
         for x in range(len(ports)):
@@ -185,22 +196,22 @@ class ConnectionWindow(QWidget):
 
     # Abrir ventana principal si se establece conexion exitosa con la estacion terrena
     def open_mainwindow(self):
-        self.main_window = MainWindow(self.thread, self)
+        self.main_window = MainWindow(self.thread, self) # Pasar el hilo de comunicacion, y la instancia actual de la ventana de conexion para evitar imports cruzados
         self.main_window.show()
         self.close()
 
     # Mostrar mensaje de error si hay un error en la estación terrena
     def show_gndstation_error_dialog(self, error_message):
-        self.on_thread_finished()
+        self.on_thread_finished() # Finalizar hilo para evitar errores duplicados
         QMessageBox.critical(self, ERRORMSG_TITLE, error_message.capitalize())
 
     # Mostrar mensaje de error si hubo un error de comunicacion entre la estacion y el programa.
     def show_communication_error_dialog(self, data:str):
         if self.progress_dialog:
-            self.progress_dialog.canceled.disconnect(self.on_thread_finished)
+            self.progress_dialog.canceled.disconnect(self.on_thread_finished) # Desconectar de la señal para evitar que se congele
             self.progress_dialog.close()
         QMessageBox.critical(self, ERRORMSG_TITLE, data.capitalize())
-        self.on_thread_finished()
+        self.on_thread_finished() # Finalizar hilo despues de mostrar el mensaje
 
 
 

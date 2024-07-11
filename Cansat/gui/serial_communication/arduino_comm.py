@@ -27,8 +27,8 @@ from utils.constants import DEFAULT_BAUDRATE, NULL_COMMUNICATION, DECODE_MODE, C
 
 class ArduinoComm(QObject):
 
-    serial_received = pyqtSignal(str)
-    serial_error = pyqtSignal(str)
+    serial_received = pyqtSignal(str) # Se emite esta señal al recibir y decodificar correctamente un mensaje
+    serial_error = pyqtSignal(str) # Se emite esta señal en caso de que haya un error de comunicacion en el puerto serie
 
     def __init__(self):
         super().__init__()
@@ -62,26 +62,25 @@ class ArduinoComm(QObject):
         else:
             return True
 
-    # Seleccionar el puerto (a partir de la lista de puertos)
+    # Seleccionar el puerto (a partir de la lista de puertos obtenida en el metodo list_available_devices)
     def select_port(self, port):
         self.port = port  # string
 
-    # Seleccionar velocidad (a partir de la lista)
+    # Seleccionar velocidad (a partir de la lista, proveeida por la interfaz)
     def select_baudrate(self, baudrate):
         self.baudrate = baudrate
 
     # Iniciar comunicación
     def begin_communication(self):
-        if self.port == CONNWINDOW_DEBUG:
+        if self.port == CONNWINDOW_DEBUG: # Si el puerto es igual a debug, no se abre communicacion en el puerto serie
             print("DEBUG")
             self.debug = True
         else:
             try:
-                self.arduino = serial.Serial(self.port, self.baudrate)
+                self.arduino = serial.Serial(self.port, self.baudrate) # Se intenta abrir comunicacion con el arduino con el puerto y velocidad seleccionados
+                print("Comunicacion establecida")
             except serial.SerialException as e:
                 self.serial_error.emit(e.__str__())
-
-            print("a")
 
 
 
@@ -95,31 +94,31 @@ class ArduinoComm(QObject):
 
     # Recibir datos
     def readln_serial(self):
-        if self.debug == True:
+        if self.debug == True: # Si esta en modo debug, se emiten datos aleatorios cada 0.5s
             while True:
                 self.serial_received.emit(self.generate_debug_data())
                 time.sleep(0.5)
 
-        if not self.validate_communication():
+        if not self.validate_communication(): # Si no se ha abierto comunicacion, se manda una excepcion
             raise Exception(NULL_COMMUNICATION)
-        try:
-            while True:
-                try:
+        try: # Intentar leer una linea desde el puerto serie
+            while True: # Hasta que se finalice el hilo
+                try: # Intentar decodificar el mensaje
                     serial_msg = self.arduino.readline()
-                    serial_msg = serial_msg.decode(DECODE_MODE)
+                    serial_msg = serial_msg.decode(DECODE_MODE) # Decodificar el mensaje
                     print(serial_msg)
                     self.serial_received.emit(serial_msg.rstrip())
                 except UnicodeDecodeError as e:
-                    print(f"Decode error: {e}. Skipping this byte.")
-                    continue  # Skip the problematic byte and continue reading
+                    print(f"Error de decodificacion: {e}. Saltando el byte.")
+                    continue  # Saltar el byte corrupto y continuar con el siguiente
         except serial.SerialException as e:
-            self.serial_error.emit(e.__str__())
+            self.serial_error.emit(e.__str__()) # Si no se pudo leer desde el puerto serie, emitir la señal de error
         finally:
-            self.arduino.close()
+            self.arduino.close() # Cerrar comunicacion con el arduino y dejar libre el puerto serie
 
 
-    def generate_debug_data(self):
-        random_numbers = [random.randint(-20, 99) for _ in range(6)]
+    def generate_debug_data(self): # generar datos aleatorios en la forma 0,0,0,0,0,0
+        random_numbers = [random.randint(-20, -20) for _ in range(6)]
         data_string = ",".join(map(str, random_numbers))
         print (data_string)
         return data_string

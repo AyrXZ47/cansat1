@@ -18,11 +18,12 @@ from PyQt6.QtCore import QThread, pyqtSignal
 
 from serial_communication.arduino_comm import ArduinoComm
 
-
+# Clase que maneja el hilo de comunicacion, sirve como punto de entrada
+# para la comunicacion serial.
 class CommunicationThread(QThread):
-    data_received = pyqtSignal(str)
-    data_error = pyqtSignal(str)
-    finished = pyqtSignal()
+    data_received = pyqtSignal(str) # Señal que se emitirá si se reciben datos
+    data_error = pyqtSignal(str) # Señal que se emitirá si hubo un error de comunicacion
+    finished = pyqtSignal() # Señal que se emitirá al finalizar el hilo
 
     # Recibiraá el puerto y la velocidad
     def __init__(self, port, speed):
@@ -32,11 +33,12 @@ class CommunicationThread(QThread):
 
     # Al ejecutar el hilo se establece la comunicación
     def run(self):
-        comm = ArduinoComm()
+        comm = ArduinoComm() #
         comm.select_port(self.port)
         comm.select_baudrate(self.speed)
-        comm.serial_received.connect(self.data_received)
-        comm.serial_error.connect(self.data_error)
-        comm.begin_communication()
-        comm.readln_serial()
+        # Crear objeto a partir de los parametros recibidos en la creacion del objeto
+        comm.serial_received.connect(self.data_received) # Conectar señal de recepcion de ArduinoComm con data_received
+        comm.serial_error.connect(self.data_error) # Conectar señal de error de ArduinoComm con data_error
+        comm.begin_communication() # Iniciar comunicacion
+        comm.readln_serial() # Empezar a leer desde el puerto serie
         self.finished.emit()
