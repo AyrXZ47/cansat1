@@ -17,7 +17,7 @@ from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 # Version
-VERSION = "v0.7.3-rc"
+VERSION = "v0.7.4-rc"
 DEBUG = True
 
 
@@ -115,6 +115,18 @@ GRAPH_BACKGROUND = BACKGROUND_COLOR
 BORDER_THICKNESS = "1px"
 
 
+TITLE_STYLESHEET = f"""
+    color: {TEXT_COLOR}; /* Color rojo */
+    font-size: 18px;
+    font-weight: bold;
+    border: 0px;
+    border-radius: 0px;
+"""
+
+WIDGET_STYLESHEET = f"""
+    border: {BORDER_THICKNESS} solid {ACCENT_COLOR};
+    border-radius: 5px;
+"""
 
 # HOJA DE ESTILOS PARA INTERFAZ
 STYLE_SHEET = f"""

@@ -30,16 +30,16 @@ void setup() {
   radio.setChannel(50);
   radio.startListening();
 
-  if (!SD.begin(4)) {
-    Serial.println("error al iniciar la tarjeta SD");
-    while (1);
-  }
+  // if (!SD.begin(4)) {
+  //   Serial.println("error al iniciar la tarjeta SD");
+  //   while (1);
+  // }
 
-  dataFile = SD.open("DATA.csv", FILE_WRITE);
-  if (!dataFile) {
-    Serial.println("Error al abrir el archivo DATA.csv");
-    while (1);
-  }
+  // dataFile = SD.open("DATA.csv", FILE_WRITE);
+  // if (!dataFile) {
+  //   Serial.println("Error al abrir el archivo DATA.csv");
+  //   while (1);
+  // }
 
   dataFile.println("Altitud (m),Presión (hPa),Aceleración X (m/s^2),Aceleración Y (m/s^2),Aceleración Z (m/s^2),Temperatura (°C)");
   dataFile.close();
@@ -84,24 +84,24 @@ void loop() {
     Serial.println();
 
     //Guardar datos en la tarjeta SD
-    dataFile = SD.open("DATA.csv", FILE_WRITE);
-    if (dataFile) {
-      dataFile.print(packet.altitude);
-      dataFile.print(",");
-      dataFile.print(packet.pressure);
-      dataFile.print(",");
-      dataFile.print(packet.acceleration[0]);
-      dataFile.print(",");
-      dataFile.print(packet.acceleration[1]);
-      dataFile.print(",");
-      dataFile.print(packet.acceleration[2]);
-      dataFile.print(",");
-      dataFile.print(packet.temperature);
-      dataFile.println();
-      dataFile.close();
-      Serial.println("Datos guardados en la tarjeta SD.");
-    } else {
-      Serial.println("Error al abrir el archivo para escribir datos en la tarjeta SD");
-    }
-  }
+  //   dataFile = SD.open("DATA.csv", FILE_WRITE);
+  //   if (dataFile) {
+  //     dataFile.print(packet.altitude);
+  //     dataFile.print(",");
+  //     dataFile.print(packet.pressure);
+  //     dataFile.print(",");
+  //     dataFile.print(packet.acceleration[0]);
+  //     dataFile.print(",");
+  //     dataFile.print(packet.acceleration[1]);
+  //     dataFile.print(",");
+  //     dataFile.print(packet.acceleration[2]);
+  //     dataFile.print(",");
+  //     dataFile.print(packet.temperature);
+  //     dataFile.println();
+  //     dataFile.close();
+  //     Serial.println("Datos guardados en la tarjeta SD.");
+  //   } else {
+  //     Serial.println("Error al abrir el archivo para escribir datos en la tarjeta SD");
+  //   }
+ }
 }

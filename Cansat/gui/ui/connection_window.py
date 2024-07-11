@@ -13,13 +13,14 @@
 # You should have received a copy of the GNU General Public License
 # along with Dragon's CanSat Monitor. If not, see <http://www.gnu.org/licenses/>.
 
-from PyQt6.QtGui import QColor, QFont
-from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit, QVBoxLayout, QComboBox, QPushButton, \
+from PyQt6.QtGui import QFont
+from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QComboBox, QPushButton, \
     QProgressDialog, QMessageBox, QHBoxLayout
+
+from serial_communication.arduino_comm import ArduinoComm
 from serial_communication.communication_thread import CommunicationThread
 from ui.main_window import MainWindow
 from utils.constants import *
-from serial_communication.arduino_comm import ArduinoComm
 
 
 # Clase que define el layout, elementos y propiedades de la ventana de conexión

@@ -15,15 +15,15 @@
 
 import math
 
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QColor, QFont
-from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit, QStatusBar, QMainWindow, QHBoxLayout, QCheckBox, \
+from PyQt6.QtGui import QFont
+from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QStatusBar, QMainWindow, QCheckBox, \
     QMessageBox, QPushButton, QVBoxLayout
 
-from ui.graphs.three_pen_graph import ThreePenGraph
-from utils.constants import *
 from ui.graphs.single_pen_graph import SinglePenGraph
+from ui.graphs.three_pen_graph import ThreePenGraph
 from ui.model3d.viewport_3d import Viewport3D
+from utils.constants import *
+
 
 # Clase que define el layout, elementos y propiedades de la ventana principal
 
@@ -85,12 +85,38 @@ class MainWindow(QMainWindow):
         self.statusbar = QStatusBar()
         self.graph_checkbox = QCheckBox(MAINWINDOW_GRAPH_CHECKBOX)
 
+        # Widget de temperatura
+        self.temp_widget = QWidget()
+        temp_layout = QVBoxLayout()
+        self.temp_widget.setLayout(temp_layout)
+        temp_title = QLabel(TEMP_TITLE)
+        temp_layout.addWidget(temp_title)
+        temp_layout.addWidget(self.temp_label,  alignment=Qt.AlignmentFlag.AlignCenter)
+
+        # Widget de altitud
+        self.alti_widget = QWidget()
+        alti_layout = QVBoxLayout()
+        self.alti_widget.setLayout(alti_layout)
+        alti_title = QLabel(ALTI_TITLE)
+        alti_layout.addWidget(alti_title)
+        alti_layout.addWidget(self.alti_label, alignment=Qt.AlignmentFlag.AlignCenter)
+
+        # Widget de presion
+        self.pres_widget = QWidget()
+        pres_layout = QVBoxLayout()
+        self.pres_widget.setLayout(pres_layout)
+        pres_title = QLabel(PRES_TITLE)
+        pres_layout.addWidget(pres_title)
+        pres_layout.addWidget(self.pres_label, alignment=Qt.AlignmentFlag.AlignCenter)
+
 
             # Widget de aceleracion
         self.accel_widget = QWidget()
         accel_layout = QVBoxLayout()
         self.accel_widget.setLayout(accel_layout)
+        accel_title = QLabel(ACCL_TITLE)
 
+        accel_layout.addWidget(accel_title, alignment=Qt.AlignmentFlag.AlignCenter)
         accel_layout.addWidget(self.acelX_label, alignment=Qt.AlignmentFlag.AlignCenter)
         accel_layout.addWidget(self.acelY_label, alignment=Qt.AlignmentFlag.AlignCenter)
         accel_layout.addWidget(self.acelZ_label, alignment=Qt.AlignmentFlag.AlignCenter)
@@ -117,10 +143,10 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(self.acel_graph, 1, 3)
         self.layout.addWidget(self.alti_graph, 2, 2)
         self.layout.addWidget(self.pres_graph, 2, 3)
-        self.layout.addWidget(self.temp_label, 1, 2, alignment=Qt.AlignmentFlag.AlignCenter)
-        self.layout.addWidget(self.alti_label, 2, 2, alignment=Qt.AlignmentFlag.AlignCenter)
-        self.layout.addWidget(self.pres_label, 2, 3, alignment=Qt.AlignmentFlag.AlignCenter)
-        self.layout.addWidget(self.accel_widget, 1, 3)
+        self.layout.addWidget(self.temp_widget, 1, 2, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.alti_widget, 2, 2, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.pres_widget, 2, 3, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.accel_widget, 1, 3, alignment=Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.back_button, 0, 0, alignment=Qt.AlignmentFlag.AlignLeft)
         self.setStatusBar(self.statusbar)
         self.statusbar.addPermanentWidget(self.graph_checkbox)
@@ -136,13 +162,19 @@ class MainWindow(QMainWindow):
         self.toggle_graphs()
         self.setVisible(True)
         if APPLY_CSS_STYLE:
-            self.apply_style()
+            self.setStyleSheet(STYLE_SHEET)
+            self.temp_widget.setStyleSheet(WIDGET_STYLESHEET)
+            self.accel_widget.setStyleSheet(WIDGET_STYLESHEET)
+            self.alti_widget.setStyleSheet(WIDGET_STYLESHEET)
+            self.pres_widget.setStyleSheet(WIDGET_STYLESHEET)
+            temp_title.setStyleSheet(TITLE_STYLESHEET)
+            alti_title.setStyleSheet(TITLE_STYLESHEET)
+            pres_title.setStyleSheet(TITLE_STYLESHEET)
+            accel_title.setStyleSheet(TITLE_STYLESHEET)
 
 
 
     # Eventos
-    def apply_style(self):
-        self.setStyleSheet(STYLE_SHEET)
 
 
     def reopen_connection_window(self):
@@ -155,10 +187,10 @@ class MainWindow(QMainWindow):
     def toggle_graphs(self):
         if self.graph_checkbox.isChecked():
             # Dibujar graficos y eliminar texto
-            self.temp_label.setVisible(False)
+            self.temp_widget.setVisible(False)
             self.accel_widget.setVisible(False)
-            self.alti_label.setVisible(False)
-            self.pres_label.setVisible(False)
+            self.alti_widget.setVisible(False)
+            self.pres_widget.setVisible(False)
 
             self.temp_graph.setVisible(True)
             self.acel_graph.setVisible(True)
@@ -168,10 +200,10 @@ class MainWindow(QMainWindow):
 
         else:
             # Dibujar texto y eliminar graficos
-            self.temp_label.setVisible(True)
+            self.temp_widget.setVisible(True)
             self.accel_widget.setVisible(True)
-            self.alti_label.setVisible(True)
-            self.pres_label.setVisible(True)
+            self.alti_widget.setVisible(True)
+            self.pres_widget.setVisible(True)
 
             self.temp_graph.setVisible(False)
             self.acel_graph.setVisible(False)

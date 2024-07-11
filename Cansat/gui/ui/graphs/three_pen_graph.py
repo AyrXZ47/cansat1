@@ -13,12 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Dragon's CanSat Monitor. If not, see <http://www.gnu.org/licenses/>.
 
-import pyqtgraph as qtgraph
 import numpy
-from PyQt6.QtCore import QTimer, Qt
-from PyQt6.QtGui import QFont
+import pyqtgraph as qtgraph
 
 from utils.constants import *
+
 
 class ThreePenGraph(qtgraph.PlotWidget):
 

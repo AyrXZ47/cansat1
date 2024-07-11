@@ -31,16 +31,16 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QApplication, QFrame
-from mpl3d import glm
-from mpl3d.mesh import Mesh
-from mpl3d.camera import Camera
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
-import numpy as np
 import meshio
-import sys
+import numpy as np
+from PyQt6.QtWidgets import QVBoxLayout, QFrame
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+from mpl3d import glm
+from mpl3d.camera import Camera
+from mpl3d.mesh import Mesh
+
 from utils.constants import *
 
 
