@@ -52,7 +52,7 @@ class MainWindow(QMainWindow):
         # Definir propiedades de la ventana.
         print("si")
         self.setWindowTitle(WINDOW_TITLE)
-        self.setGeometry(100, 100, 800, 400)
+        self.setGeometry(100, 100, 950, 400)
         self.center()
 
         # Definir layout
@@ -140,68 +140,7 @@ class MainWindow(QMainWindow):
 
     # Eventos
     def apply_style(self):
-        self.setStyleSheet("""
-                    QWidget {
-                        background-color: #0e0e0e;
-                        color: #00ff00;
-                    }
-
-                    QPushButton {
-                        background-color: #333333;
-                        border: 2px solid #00ff00;
-                        color: #00ff00;
-                        padding: 10px;
-                        font-size: 16px;
-                    }
-
-                    QPushButton:hover {
-                        background-color: #00ff00;
-                        color: #333333;
-                    }
-
-                    QLabel {
-                        color: #00ff00;
-                        font-size: 18px;
-                    }
-
-                    SinglePenGraph, ThreePenGraph {
-                        background-color: #1e1e1e;
-                        border: 1px solid #00ff00;
-                    }
-
-                    Viewport3D {
-                        border: 1px solid #00ff00;
-                        padding: 10px; 
-                    }
-
-                    QCheckBox {
-                        font-size: 16px;
-                        padding: 5px;
-                    }
-
-                    QStatusBar {
-                        background-color: #0e0e0e;
-                        color: #00ff00;
-                        font-size: 16px;
-                        border-top: 1px solid #00ff00;
-                    }
-
-                    QLineEdit {
-                        background-color: #1e1e1e;
-                        border: 2px solid #00ff00;
-                        color: #00ff00;
-                        padding: 5px;
-                        font-size: 16px;
-                    }
-
-                    QLabel {
-                        font-size: 36px;
-                    }
-
-                    Viewport3D {
-                        border: 2px solid #00ff00;
-                    }
-                    """)
+        self.setStyleSheet(STYLE_SHEET)
 
 
     def reopen_connection_window(self):

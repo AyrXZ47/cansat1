@@ -17,7 +17,7 @@ from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 # Version
-VERSION = "v0.7.1"
+VERSION = "v0.7.2"
 DEBUG = True
 
 
@@ -32,7 +32,7 @@ TRANSM_SPEED = [
 NULL_COMMUNICATION = 'No se ha abierto la comunicación'
 DECODE_MODE = 'utf-8'
 DEFAULT_BAUDRATE = TRANSM_SPEED[DEFAULT_BAUDRATE_INDEX]
-ACCENT_COLOR = 'g'
+FONT = "'Consolas', 'Courier New', monospace'"
 
 # TEXTOS DE VENTANA PRINCIPAL
 TEMP_UNIT = " ˚C"
@@ -68,7 +68,7 @@ WAITWINDOW_LABEL = "Esperando estación terrena..."
 WAITWINDOW_CANCEL = "Cancelar"
 
 # VALORES POR DEFECTO DE GRAFICAS
-GRAPH_BACKGROUND = 'k'
+GRAPH_BACKGROUND = '#0e0e0e'
 GRAPH_UPDINTERVAL = 500
 GRAPH_ENABLEMOUSE = False
 GRAPH_PENWIDTH = 2
@@ -76,9 +76,6 @@ GRAPH_HISTORYSIZE = 30
 GRAPH_ANTIALIAS = True
 GRAPH_PENSTYLE = Qt.PenStyle.SolidLine
 GRAPH_TITLESIZE = '10pt'
-GRAPH_TITLECOLOR = 'g'
-GRAPH_FONTFAMILY = 'monaspace'
-GRAPH_FONTSIZE = '100pt'
 
 
 # VALORES ESPECIFICOS PARA CADA GRAFICA
@@ -104,8 +101,6 @@ PRES_TITLE = "Presión"
 # Removed texture mappings
 MESH_NAME = "lowsoda.obj"
 MESH_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources', MESH_NAME)
-MESH_COLORMAP = "viridis"
-MESH_BACKGROUND = 'gray'
 CAMERA_MODE = "ortho"
 CAMERA_SCALE = 1
 
@@ -125,6 +120,71 @@ STATUS_CODE = {
     -2: "Error al abrir el archivo DATA.csv"
 }
 
+BACKGROUND_COLOR = "#0e0e0e"
+TEXT_COLOR = "#00ff00"
+ACCENT_COLOR = "#00ff00"
+BUTTON_COLOR = "#333333"
+MESH_BACKGROUND = BACKGROUND_COLOR
+MESH_COLORMAP = "viridis"
+
+
+# HOJA DE ESTILOS PARA INTERFAZ
+STYLE_SHEET = f"""
+QWidget {{
+                        background-color: {BACKGROUND_COLOR};
+                        color: {TEXT_COLOR};
+                        font-family: 'Consolas', 'Courier New', monospace;
+
+                    }}
+
+                    QPushButton {{
+                        background-color: {BUTTON_COLOR};
+                        border: 2px solid {ACCENT_COLOR};
+                        color: {TEXT_COLOR};
+                        padding: 10px;
+                        font-size: 16px;
+                    }}
+
+                    QPushButton:hover {{
+                        background-color: {ACCENT_COLOR};
+                        color: {BUTTON_COLOR};
+                    }}
+
+                    QLabel {{
+                        color: {TEXT_COLOR};
+                        font-size: 18px;
+                    }}
+
+                    SinglePenGraph, ThreePenGraph {{
+                        background-color: {BACKGROUND_COLOR};
+                        border: 1px solid {ACCENT_COLOR};
+                    }}
+
+                    Viewport3D {{
+                        border: 1px solid {ACCENT_COLOR};
+                        padding: 10px; 
+                    }}
+
+                    QCheckBox {{
+                        font-size: 16px;
+                        padding: 5px;
+                    }}
+
+                    QStatusBar {{
+                        background-color: {BACKGROUND_COLOR};
+                        color: {TEXT_COLOR};
+                        font-size: 16px;
+                    }}
+
+                    QLabel {{
+                        font-size: 36px;
+                    }}
+
+                    Viewport3D {{
+                        border: 2px solid {ACCENT_COLOR};
+                    }}
+"""
+
 # FUNCIONES
 def check_home():
     cansat_folder = Path.home() / ".cansat"
@@ -133,4 +193,7 @@ def check_home():
 
 # INICIALIZAR CARPETA
 HOME_FOLDER = check_home()
+
+
+
 
