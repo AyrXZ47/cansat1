@@ -214,6 +214,7 @@ class MainWindow(QMainWindow):
 
     # Handlers
     def handle_communication_error(self, data:str):
+        print("comm error")
         self.conn_window.center() # Mostrar la ventana de comunicacion
         self.conn_window.show()
         self.setVisible(False)

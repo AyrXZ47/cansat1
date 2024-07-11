@@ -17,7 +17,7 @@ from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 # Version
-VERSION = "v0.7.4a-rc"
+VERSION = "v0.7.6-rc"
 DEBUG = True
 
 
