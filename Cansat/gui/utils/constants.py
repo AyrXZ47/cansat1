@@ -17,7 +17,7 @@ from pathlib import Path
 from PyQt6.QtCore import QTimer, Qt
 
 # Version
-VERSION = "v0.7.2"
+VERSION = "v0.7.3-rc"
 DEBUG = True
 
 
@@ -68,7 +68,6 @@ WAITWINDOW_LABEL = "Esperando estación terrena..."
 WAITWINDOW_CANCEL = "Cancelar"
 
 # VALORES POR DEFECTO DE GRAFICAS
-GRAPH_BACKGROUND = '#0e0e0e'
 GRAPH_UPDINTERVAL = 500
 GRAPH_ENABLEMOUSE = False
 GRAPH_PENWIDTH = 2
@@ -104,28 +103,17 @@ MESH_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources'
 CAMERA_MODE = "ortho"
 CAMERA_SCALE = 1
 
-
-# CONSTANTES DE CONFIGURACION
-CONFIG_NAME = "DEFAULT"
-CONFIG_FILE = 'cansat_monitor.ini'
-FIELD_UNITS = "units"
-FIELD_PORT = "port"
-FIELD_LANGUAGE = "language"
-
-# CODIGOS DE ESTADO
-STATUS_CODE = {
-    1: "Estación terrena lista para recibir datos del CANSAT.",
-    2: "Esperando la señal del CANSAT...",
-    -1: "Error al iniciar la tarjeta SD",
-    -2: "Error al abrir el archivo DATA.csv"
-}
-
-BACKGROUND_COLOR = "#0e0e0e"
-TEXT_COLOR = "#00ff00"
-ACCENT_COLOR = "#00ff00"
-BUTTON_COLOR = "#333333"
+APPLY_CSS_STYLE = True
+BACKGROUND_COLOR = "#141824"
+TEXT_COLOR = "#00ccff"
+ACCENT_COLOR = "#00ccff"
+BUTTON_COLOR = "#141824"
 MESH_BACKGROUND = BACKGROUND_COLOR
-MESH_COLORMAP = "viridis"
+MESH_COLORMAP = "cool"
+# https://matplotlib.org/stable/users/explain/colors/colormaps.html
+GRAPH_BACKGROUND = BACKGROUND_COLOR
+BORDER_THICKNESS = "1px"
+
 
 
 # HOJA DE ESTILOS PARA INTERFAZ
@@ -139,10 +127,11 @@ QWidget {{
 
                     QPushButton {{
                         background-color: {BUTTON_COLOR};
-                        border: 2px solid {ACCENT_COLOR};
+                        border: {BORDER_THICKNESS} solid {ACCENT_COLOR};
                         color: {TEXT_COLOR};
                         padding: 10px;
                         font-size: 16px;
+                        border-radius: 5px;
                     }}
 
                     QPushButton:hover {{
@@ -157,11 +146,12 @@ QWidget {{
 
                     SinglePenGraph, ThreePenGraph {{
                         background-color: {BACKGROUND_COLOR};
-                        border: 1px solid {ACCENT_COLOR};
+                        border: {BORDER_THICKNESS} solid {ACCENT_COLOR};
+                        border-radius: 5px;
                     }}
 
                     Viewport3D {{
-                        border: 1px solid {ACCENT_COLOR};
+                        border: {BORDER_THICKNESS} solid {ACCENT_COLOR};
                         padding: 10px; 
                     }}
 
@@ -181,7 +171,7 @@ QWidget {{
                     }}
 
                     Viewport3D {{
-                        border: 2px solid {ACCENT_COLOR};
+                        border: {BORDER_THICKNESS} solid {ACCENT_COLOR};
                     }}
 """
 

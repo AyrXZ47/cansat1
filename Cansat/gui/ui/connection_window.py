@@ -109,7 +109,7 @@ class ConnectionWindow(QWidget):
     # Handlers
     def data_event_handler(self, data: str):
         received_data = data.split(",")
-        if (data.startswith("e")):
+        if (data.startswith(ERROR_START)):
             self.show_gndstation_error_dialog(data)
             if self.progress_dialog:
                 self.progress_dialog.canceled.disconnect(self.on_thread_finished)

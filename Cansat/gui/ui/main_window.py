@@ -91,9 +91,9 @@ class MainWindow(QMainWindow):
         accel_layout = QVBoxLayout()
         self.accel_widget.setLayout(accel_layout)
 
-        accel_layout.addWidget(self.acelX_label)
-        accel_layout.addWidget(self.acelY_label)
-        accel_layout.addWidget(self.acelZ_label)
+        accel_layout.addWidget(self.acelX_label, alignment=Qt.AlignmentFlag.AlignCenter)
+        accel_layout.addWidget(self.acelY_label, alignment=Qt.AlignmentFlag.AlignCenter)
+        accel_layout.addWidget(self.acelZ_label, alignment=Qt.AlignmentFlag.AlignCenter)
 
 
         # Definir propiedades de widgets
@@ -117,9 +117,9 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(self.acel_graph, 1, 3)
         self.layout.addWidget(self.alti_graph, 2, 2)
         self.layout.addWidget(self.pres_graph, 2, 3)
-        self.layout.addWidget(self.temp_label, 1, 2)
-        self.layout.addWidget(self.alti_label, 2, 2)
-        self.layout.addWidget(self.pres_label, 2, 3)
+        self.layout.addWidget(self.temp_label, 1, 2, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.alti_label, 2, 2, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.pres_label, 2, 3, alignment=Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.accel_widget, 1, 3)
         self.layout.addWidget(self.back_button, 0, 0, alignment=Qt.AlignmentFlag.AlignLeft)
         self.setStatusBar(self.statusbar)
@@ -135,7 +135,9 @@ class MainWindow(QMainWindow):
 
         self.toggle_graphs()
         self.setVisible(True)
-        self.apply_style()
+        if APPLY_CSS_STYLE:
+            self.apply_style()
+
 
 
     # Eventos
@@ -182,6 +184,16 @@ class MainWindow(QMainWindow):
         self.conn_window.center()
         self.conn_window.show()
         self.setVisible(False)
+        #self.comm_thread.terminate()
+        QMessageBox.critical(self, ERRORMSG_TITLE, data.capitalize())
+        self.conn_window.enable_window()
+        self.conn_window.show()
+        self.close()
+
+    def handle_gndstation_error(self, data:str):
+        self.conn_window.center()
+        self.conn_window.show()
+        self.setVisible(False)
         self.comm_thread.terminate()
         QMessageBox.critical(self, ERRORMSG_TITLE, data.capitalize())
         self.conn_window.enable_window()
@@ -193,8 +205,8 @@ class MainWindow(QMainWindow):
         print(data)
         self.statusbar.showMessage(data)
 
-        if (data.startswith("e")):
-            self.handle_communication_error(data)
+        if (data.startswith(ERROR_START)):
+            self.handle_gndstation_error(data)
             return 0
 
         raw_data = data.split(DATA_SEPARATOR)
