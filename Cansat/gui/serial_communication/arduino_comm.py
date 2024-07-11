@@ -13,7 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with Dragon's CanSat Monitor. If not, see <http://www.gnu.org/licenses/>.
 import random
-import termios
 import time
 
 import serial
@@ -80,7 +79,7 @@ class ArduinoComm(QObject):
             try:
                 self.arduino = serial.Serial(self.port, self.baudrate) # Se intenta abrir comunicacion con el arduino con el puerto y velocidad seleccionados
                 print("Comunicacion establecida")
-            except (serial.SerialException, termios.error) as e:
+            except (serial.SerialException) as e:
                 self.serial_error.emit(e.__str__())
 
 
@@ -119,7 +118,7 @@ class ArduinoComm(QObject):
 
 
     def generate_debug_data(self): # generar datos aleatorios en la forma 0,0,0,0,0,0
-        random_numbers = [random.randint(-20, -20) for _ in range(6)]
+        random_numbers = [random.randint(-20, 20) for _ in range(6)]
         data_string = ",".join(map(str, random_numbers))
         print (data_string)
         return data_string
