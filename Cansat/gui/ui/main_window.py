@@ -181,7 +181,8 @@ class MainWindow(QMainWindow):
         self.conn_window.center()
         self.conn_window.show()
         self.setVisible(False)
-        self.conn_window.on_thread_finished() # Finalizar hilo de comunicacion desde la ventana de conexion
+        self.comm_thread.terminate()
+        self.conn_window.enable_window() # Finalizar hilo de comunicacion desde la ventana de conexion
         self.close()
 
     def toggle_graphs(self):
@@ -272,7 +273,7 @@ class MainWindow(QMainWindow):
             self.pres_label.setText(f'{pressure} {PRES_UNIT}')
             self.alti_label.setText(f'{altitude} {ALTI_UNIT}')
 
-            self.viewport3D.rotate(math.degrees(pitch), 0, math.degrees(roll))
+            self.viewport3D.rotate(math.degrees(pitch), 0, math.degrees(-roll))
 
 
 

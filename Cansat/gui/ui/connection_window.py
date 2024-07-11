@@ -173,9 +173,8 @@ class ConnectionWindow(QWidget):
     # Cuando se finalice la conexión (el hilo) se volveraán a habilitar los selectores
     def on_thread_finished(self):
         print("TERMINADO")
-        self.thread.terminate()  # FIXME Finalizar el hilo de comunicación correctamente
         self.enable_window() # Reactivar ventana
-
+        self.thread.terminate()
 
 
     ## Procesos ##
