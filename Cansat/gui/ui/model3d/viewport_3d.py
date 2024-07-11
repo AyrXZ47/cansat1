@@ -31,7 +31,7 @@
 # -----------------------------------------------------------------------------
 
 
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QApplication
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QApplication, QFrame
 from mpl3d import glm
 from mpl3d.mesh import Mesh
 from mpl3d.camera import Camera
@@ -88,9 +88,13 @@ def zrotate(theta):
                      [0, 0, 1, 0], [0, 0, 0, 1]], dtype=float)
 
 # Widget que se insertara en la ventana
-class Viewport3D(QWidget):
+class Viewport3D(QFrame):
     def __init__(self, parent=None):
         super().__init__(parent)
+
+        #self.setFrameShape(QFrame.Shape.Box)
+        #self.setFrameShadow(QFrame.Shadow.Plain)
+
 
         self.layout = QVBoxLayout(self)
 

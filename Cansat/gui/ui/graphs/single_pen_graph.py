@@ -20,7 +20,7 @@ from utils.constants import *
 
 class SinglePenGraph(qtgraph.PlotWidget):
 
-    def __init__(self, graph_color,parent=None):
+    def __init__(self, graph_color,parent=None, title=""):
         super().__init__(parent)
         pen_color = (graph_color)
         pen_width = GRAPH_PENWIDTH
@@ -29,6 +29,8 @@ class SinglePenGraph(qtgraph.PlotWidget):
         self.ptr = 0
         self.setBackground(GRAPH_BACKGROUND)
         self.setMouseEnabled(x=GRAPH_ENABLEMOUSE, y=GRAPH_ENABLEMOUSE)
+        self.setTitle(title, color=ACCENT_COLOR, size=GRAPH_TITLESIZE)
+
 
     def update_data(self, new_data):
         self.temp_data = numpy.roll(self.temp_data, -1)

@@ -18,7 +18,7 @@ import math
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor, QFont
 from PyQt6.QtWidgets import QWidget, QGridLayout, QLabel, QLineEdit, QStatusBar, QMainWindow, QHBoxLayout, QCheckBox, \
-    QMessageBox, QPushButton
+    QMessageBox, QPushButton, QVBoxLayout
 
 from ui.graphs.three_pen_graph import ThreePenGraph
 from utils.constants import *
@@ -59,13 +59,11 @@ class MainWindow(QMainWindow):
         self.layout = QGridLayout()
         self.central_widget.setLayout(self.layout)
 
-        self.layout.setRowStretch(0,1)
-        self.layout.setRowStretch(1,5)
-        self.layout.setRowStretch(2,5)
-
-        self.layout.setColumnStretch(0, 2)
-        self.layout.setColumnStretch(1, 1)
-        self.layout.setColumnStretch(2, 1)
+        # Ajustar stretch de filas y columnas para que se estiren igualmente.
+        for i in range(3):
+            self.layout.setRowStretch(i, 1)
+        for i in range(4):
+            self.layout.setColumnStretch(i, 1)
 
         # Definir estilos
         font = QFont()
@@ -73,10 +71,10 @@ class MainWindow(QMainWindow):
 
         # Definir elementos
         self.viewport3D = Viewport3D()
-        self.temp_graph = SinglePenGraph(TEMP_COLOR)
-        self.acel_graph = ThreePenGraph(ACCL_COLOR1, ACCL_COLOR2, ACCL_COLOR3)
-        self.alti_graph = SinglePenGraph(ALTI_COLOR)
-        self.pres_graph = SinglePenGraph(PRES_COLOR)
+        self.temp_graph = SinglePenGraph(TEMP_COLOR, title="Temperatura")
+        self.acel_graph = ThreePenGraph(ACCL_COLOR1, ACCL_COLOR2, ACCL_COLOR3, title = "Aceleración")
+        self.alti_graph = SinglePenGraph(ALTI_COLOR, title="Altitud")
+        self.pres_graph = SinglePenGraph(PRES_COLOR, title="Presión")
         self.temp_label = QLabel(TEMP_PLACEHOLDER)
         self.acelX_label = QLabel(ACEL_PLACEHOLDER)
         self.acelY_label = QLabel(ACEL_PLACEHOLDER)
@@ -90,7 +88,7 @@ class MainWindow(QMainWindow):
 
             # Widget de aceleracion
         self.accel_widget = QWidget()
-        accel_layout = QHBoxLayout()
+        accel_layout = QVBoxLayout()
         self.accel_widget.setLayout(accel_layout)
 
         accel_layout.addWidget(self.acelX_label)
@@ -137,8 +135,74 @@ class MainWindow(QMainWindow):
 
         self.toggle_graphs()
         self.setVisible(True)
+        self.apply_style()
+
 
     # Eventos
+    def apply_style(self):
+        self.setStyleSheet("""
+                    QWidget {
+                        background-color: #0e0e0e;
+                        color: #00ff00;
+                    }
+
+                    QPushButton {
+                        background-color: #333333;
+                        border: 2px solid #00ff00;
+                        color: #00ff00;
+                        padding: 10px;
+                        font-size: 16px;
+                    }
+
+                    QPushButton:hover {
+                        background-color: #00ff00;
+                        color: #333333;
+                    }
+
+                    QLabel {
+                        color: #00ff00;
+                        font-size: 18px;
+                    }
+
+                    SinglePenGraph, ThreePenGraph {
+                        background-color: #1e1e1e;
+                        border: 1px solid #00ff00;
+                    }
+
+                    Viewport3D {
+                        border: 1px solid #00ff00;
+                        padding: 10px; 
+                    }
+
+                    QCheckBox {
+                        font-size: 16px;
+                        padding: 5px;
+                    }
+
+                    QStatusBar {
+                        background-color: #0e0e0e;
+                        color: #00ff00;
+                        font-size: 16px;
+                        border-top: 1px solid #00ff00;
+                    }
+
+                    QLineEdit {
+                        background-color: #1e1e1e;
+                        border: 2px solid #00ff00;
+                        color: #00ff00;
+                        padding: 5px;
+                        font-size: 16px;
+                    }
+
+                    QLabel {
+                        font-size: 36px;
+                    }
+
+                    Viewport3D {
+                        border: 2px solid #00ff00;
+                    }
+                    """)
+
 
     def reopen_connection_window(self):
         self.conn_window.center()
