@@ -33,7 +33,7 @@ if __name__ == "__main__":
 
 # Empaquetar Windows
 # Sin consola
-# pyinstaller --onefile --windowed --icon=resources/icono.ico --add-data "resources/cone.obj:resources" --add-data "resources/lowsoda.obj:resources" main.py
+# pyinstaller --onefile --windowed --icon=resources/icono.ico --add-data "resources/cone.obj:resources" --add-data "resources/lowsoda.obj:resources" --name cansat-monitor main.py
 
 # Con consola
-# pyinstaller --onefile --icon=resources/icono.ico --add-data "resources/cone.obj:resources" --add-data "resources/lowsoda.obj:resources" main.py
+# pyinstaller --onefile --icon=resources/icono.ico --add-data "resources/cone.obj:resources" --add-data "resources/lowsoda.obj:resources" --name cansat-monitor main.py
