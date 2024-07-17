@@ -1,4 +1,4 @@
-# Dragon's CanSat Monitor
+# Tuzo CanSat Monitor
 
 ## Guía de uso
 

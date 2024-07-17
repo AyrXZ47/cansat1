@@ -1,17 +1,17 @@
 # Copyright (C) 2024  Ndahai Arenas
 #
-# Dragon's CanSat Monitor is free software: you can redistribute it and/or modify
+# Tuzo CanSat Monitor is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# Dragon's CanSat Monitor is distributed in the hope that it will be useful,
+# Tuzo CanSat Monitor is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with Dragon's CanSat Monitor. If not, see <http://www.gnu.org/licenses/>.
+# along with Tuzo CanSat Monitor. If not, see <http://www.gnu.org/licenses/>.
 
 import math
 
@@ -268,9 +268,9 @@ class MainWindow(QMainWindow):
 
 
             self.temp_label.setText(f'{temp} {TEMP_UNIT}')
-            self.acelX_label.setText(f'{accelX} {ACEL_UNIT}')
-            self.acelY_label.setText(f'{accelY} {ACEL_UNIT}')
-            self.acelZ_label.setText(f'{accelZ} {ACEL_UNIT}')
+            self.acelX_label.setText(f'X: {accelX} {ACEL_UNIT}')
+            self.acelY_label.setText(f'Y: {accelY} {ACEL_UNIT}')
+            self.acelZ_label.setText(f'Z: {accelZ} {ACEL_UNIT}')
             self.pres_label.setText(f'{pressure} {PRES_UNIT}')
             self.alti_label.setText(f'{altitude} {ALTI_UNIT}')
 
