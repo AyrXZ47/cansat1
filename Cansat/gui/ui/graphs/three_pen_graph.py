@@ -30,14 +30,15 @@ class ThreePenGraph(qtgraph.PlotWidget):
         pen_width = GRAPH_PENWIDTH
 
         self.setTitle(title, color=ACCENT_COLOR, size=GRAPH_TITLESIZE)
+        self.legend = self.addLegend()
 
 
         self.temp_plotX = self.plot(
-            pen=qtgraph.mkPen(color=graph_color1, width=pen_width, antialias=GRAPH_ANTIALIAS, style=GRAPH_PENSTYLE))
+            pen=qtgraph.mkPen(color=graph_color1, width=pen_width, antialias=GRAPH_ANTIALIAS, style=GRAPH_PENSTYLE), name = "Eje X")
         self.temp_plotY = self.plot(
-            pen=qtgraph.mkPen(color=graph_color2, width=pen_width, antialias=GRAPH_ANTIALIAS, style=GRAPH_PENSTYLE))
+            pen=qtgraph.mkPen(color=graph_color2, width=pen_width, antialias=GRAPH_ANTIALIAS, style=GRAPH_PENSTYLE), name = "Eje Y")
         self.temp_plotZ = self.plot(
-            pen=qtgraph.mkPen(color=graph_color3, width=pen_width, antialias=GRAPH_ANTIALIAS, style=GRAPH_PENSTYLE))
+            pen=qtgraph.mkPen(color=graph_color3, width=pen_width, antialias=GRAPH_ANTIALIAS, style=GRAPH_PENSTYLE), name = "Eje Z")
 
         self.temp_dataX = numpy.linspace(0, 0, GRAPH_HISTORYSIZE)
         self.temp_dataY = numpy.linspace(0, 0, GRAPH_HISTORYSIZE)
