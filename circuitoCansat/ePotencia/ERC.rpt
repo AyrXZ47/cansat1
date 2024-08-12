@@ -1,0 +1,27 @@
+ERC report (2024-08-08T16:17:25-0600, Encoding UTF8)
+
+***** Sheet /
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(4150.00 mils, 4600.00 mils): Symbol regulador3V1 Pin 3 [Vin, Power input, Line]
+[pin_to_pin]: Pins of type Bidirectional and Power output are connected
+    ; warning
+    @(4900.00 mils, 3600.00 mils): Symbol cCeramicoDisco1 Pin 2 [Bidirectional, Line]
+    @(4150.00 mils, 3100.00 mils): Symbol regulador3V1 Pin 1 [GND, Power output, Line]
+[no_connect_connected]: A pin with a “no connection” flag is connected
+    ; warning
+    @(2750.00 mils, 4900.00 mils): Symbol socketSalida1 Pin 3 [Pin_3, Passive, Line]
+    @(3800.00 mils, 4900.00 mils): No Connect
+[pin_to_pin]: Pins of type Bidirectional and Power output are connected
+    ; warning
+    @(5550.00 mils, 3600.00 mils): Symbol cCeramicoDisco2 Pin 2 [Bidirectional, Line]
+    @(4150.00 mils, 3100.00 mils): Symbol regulador3V1 Pin 1 [GND, Power output, Line]
+[multiple_net_names]: Both GND OUT and GND are attached to the same items; GND OUT will be used in the netlist
+    ; warning
+    @(2400.00 mils, 4850.00 mils): Global Label 'GND OUT'
+    @(8150.00 mils, 4200.00 mils): Symbol #PWR01 Pin 1 [Power input, Line]
+[power_pin_not_driven]: Input Power pin not driven by any Output Power pins
+    ; error
+    @(8150.00 mils, 4300.00 mils): Symbol #PWR02 Pin 1 [Power input, Line]
+
+ ** ERC messages: 6  Errors 2  Warnings 4
